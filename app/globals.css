@@ -6,10 +6,16 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-light: #fbfefa;
+  --color-dark: #26333a;
+  --color-primary: #22b123;
+  --color-primary-var: #38b939;
+  --color-secondary: #fece2e;
+  --color-secondary-var: #ffea32;
+  /* Fonts */
+  --font-raleway: var(--font-raleway);
+  --font-clash-grotesk: var(--font-clash-grotesk);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +26,36 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-raleway), var(--font-clash-grotesk), sans-serif;
+}
+
+.border-test-red {
+  border: 1px red solid;
+}
+.border-test-green {
+  border: 1px green solid;
+}
+.border-test-blue {
+  border: 1px blue solid;
+}
+.border-test-yellow {
+  border: 1px yellow solid;
+}
+.border-test-purple {
+  border: 1px purple solid;
+}
+.border-test-orange {
+  border: 1px orange solid;
+}
+.border-test-pink {
+  border: 1px pink solid;
+}
+.border-test-gray {
+  border: 1px gray solid;
+}
+.border-test-black {
+  border: 1px black solid;
+}
+.border-test-white {
+  border: 1px white solid;
 }

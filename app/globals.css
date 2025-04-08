@@ -29,6 +29,10 @@ body {
   font-family: var(--font-raleway), var(--font-clash-grotesk), sans-serif;
 }
 
+.border-test {
+  border: 1px red solid;
+}
+
 .border-test-red {
   border: 1px red solid;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,27 +31,34 @@ import {
 
 import { MdCloudUpload } from "react-icons/md";
 
+import { handleLogin, handleLogout } from "@/actions/actions";
+
 const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address",
   }),
-  phoneNumber: z
+  password: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(15, { message: "Phone number is too long" })
-    .regex(/^\+?[0-9]+$/, { message: "Invalid phone number format" }),
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(20, { message: "Password is too long" }),
+  // .regex(/^(?=.*[A-Z])(?=.*[0-9])/, {
+  //   message:
+  //     "Password must contain at least one uppercase letter and one number",
+  // }),
 });
 
-export function LoginForm() {
+function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await handleLogin(values);
+    // console.log(values);
   }
 
   return (
@@ -65,6 +74,7 @@ export function LoginForm() {
 
         <Form {...form}>
           <form
+            // action={handleLogin}
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-1 flex-col gap-4 pt-4"
           >
@@ -89,14 +99,14 @@ export function LoginForm() {
               )}
             />
 
-            {/* Email Input Field */}
+            {/* Password Input Field */}
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem className="text-dark flex flex-col gap-1">
                   <FormLabel className="text-primary font-semibold">
-                    Email Address
+                    Password
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -171,3 +181,5 @@ export function LoginForm() {
     </div>
   );
 }
+
+export default LoginForm;

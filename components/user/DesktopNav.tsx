@@ -16,7 +16,7 @@ import {
 
 import { MdClose } from "react-icons/md";
 
-import { LoginForm } from "@/components/user/LoginForm";
+import LoginForm from "@/components/user/LoginForm";
 
 function DesktopNav() {
   const [activeNav, setActiveNav] = useState<string>("home");

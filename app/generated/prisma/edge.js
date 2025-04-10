@@ -175,7 +175,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\salva\\Desktop\\Development Files\\Main Projects\\bananacare\\app\\generated\\prisma",
+      "value": "C:\\Users\\Build With Me\\Desktop\\Projects\\Bananacare\\app\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -189,7 +189,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\salva\\Desktop\\Development Files\\Main Projects\\bananacare\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Build With Me\\Desktop\\Projects\\Bananacare\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

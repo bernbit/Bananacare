@@ -2,11 +2,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { FaVirus } from "react-icons/fa";
-import { MdContacts, MdHome, MdInfo } from "react-icons/md";
+
+import {
+  RiVirusLine,
+  RiHome5Line,
+  RiInformationLine,
+  RiContactsLine,
+} from "react-icons/ri";
 
 function MobileNav() {
   const [activeNav, setActiveNav] = useState<string>("home");
+
+  const navItems = [
+    { label: "Home", icon: RiHome5Line, key: "home" },
+    { label: "Disease", icon: RiVirusLine, key: "disease" },
+    { label: "About", icon: RiInformationLine, key: "about" },
+    {
+      label: "Contact",
+      icon: RiContactsLine,
+      key: "contact",
+    },
+  ];
 
   const sectionIds = ["home", "disease", "about", "contact"];
 
@@ -58,8 +74,8 @@ function MobileNav() {
         <div className="pointer-events-none fixed inset-0 h-screen w-screen opacity-0 transition-opacity duration-300 peer-checked:pointer-events-auto peer-checked:bg-black/50 peer-checked:opacity-100"></div>
 
         {/* Sliding Side Menu */}
-        <div className="bg-light fixed top-0 left-0 z-40 flex h-screen w-[55%] -translate-x-full flex-col transition-transform duration-500 ease-in-out peer-checked:translate-x-0">
-          <div className="flex items-center gap-2 px-3 py-2">
+        <div className="bg-light fixed top-0 left-0 z-40 flex h-screen w-[18rem] -translate-x-full flex-col px-3 transition-transform duration-500 ease-in-out peer-checked:translate-x-0">
+          <div className="flex items-center gap-2 py-2">
             <Image
               src="/img/BananaCare-Logomark.svg"
               width={50}
@@ -75,47 +91,24 @@ function MobileNav() {
             />
           </div>
 
-          <ul className="flex flex-1 flex-col gap-3 py-4 font-semibold">
-            <p className="text-primary px-3 text-sm font-medium">Menu</p>
+          <ul className="flex flex-1 flex-col gap-1 py-4">
+            <p className="text-primary py-1 text-xs font-medium">Menu</p>
 
-            {/* Home */}
-            <li
-              className={`hover:bg-primary hover:text-light flex items-center gap-3 px-3 py-3 whitespace-nowrap hover:cursor-pointer ${activeNav === "home" ? "bg-primary text-light" : "text-dark"}`}
-              onClick={() => handleNavClick("home")}
-            >
-              <MdHome className="text-xl" />
-              <p className="text-base">Home</p>
-            </li>
-
-            {/* Disease */}
-            <li
-              className={`hover:bg-primary hover:text-light flex items-center gap-3 px-3 py-3 whitespace-nowrap hover:cursor-pointer ${activeNav === "disease" ? "bg-primary text-light" : "text-dark"}`}
-              onClick={() => handleNavClick("disease")}
-            >
-              <FaVirus className="text-xl" />
-              <p className="text-base">Disease</p>
-            </li>
-
-            {/* About */}
-            <li
-              className={`hover:bg-primary hover:text-light flex items-center gap-3 px-3 py-3 whitespace-nowrap hover:cursor-pointer ${activeNav === "about" ? "bg-primary text-light" : "text-dark"}`}
-              onClick={() => handleNavClick("about")}
-            >
-              <MdInfo className="text-xl" />
-              <p className="text-base">About</p>
-            </li>
-
-            {/* Contact */}
-            <li
-              className={`hover:bg-primary hover:text-light flex items-center gap-3 px-3 py-3 whitespace-nowrap hover:cursor-pointer ${activeNav === "contact" ? "bg-primary text-light" : "text-dark"}`}
-              onClick={() => handleNavClick("contact")}
-            >
-              <MdContacts className="text-xl" />
-              <p className="text-base">Contact</p>
-            </li>
+            {navItems.map((item) => (
+              <li
+                key={item.key}
+                className={`hover:bg-primary hover:text-light flex items-center gap-2 rounded-md px-2 py-3 font-medium whitespace-nowrap hover:cursor-pointer ${
+                  activeNav === item.key ? "bg-primary text-light" : "text-dark"
+                }`}
+                onClick={() => handleNavClick(item.key)}
+              >
+                <item.icon className="" />
+                <p className="text-sm">{item.label}</p>
+              </li>
+            ))}
           </ul>
 
-          <div className="border-test px-3 py-10">
+          <div className="border-test py-10">
             <Link
               href={"/login"}
               className="bg-primary text-light flex-1 rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"

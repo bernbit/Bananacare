@@ -5,7 +5,6 @@ import React from "react";
 //Next
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 //Shadcn
 import { Button } from "@/components/ui/button";
@@ -28,8 +27,6 @@ import { loginSchema } from "@/lib/zod";
 import { handleLogin } from "@/actions/actions";
 
 function LoginForm() {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -112,13 +109,13 @@ function LoginForm() {
 
         <p className="py-4 text-center text-sm">
           Doesn't have an account?
-          <span
-            onClick={() => router.push("/signup")}
+          <Link
+            href={"/signup"}
             className="text-primary hover:cursor-pointer hover:opacity-70"
           >
             {" "}
             Create one
-          </span>
+          </Link>
         </p>
       </div>
 

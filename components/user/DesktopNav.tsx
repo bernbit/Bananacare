@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 import {
   AlertDialog,
@@ -86,7 +87,7 @@ function DesktopNav() {
         Contact Us
       </li>
 
-      <AlertDialog>
+      {/* <AlertDialog>
         <AlertDialogTrigger className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70">
           Login
         </AlertDialogTrigger>
@@ -105,9 +106,29 @@ function DesktopNav() {
 
           <LoginForm />
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> */}
 
-      <div className="bg-primary hidden h-12 w-12 rounded-full"></div>
+      {/* <main className="border-test fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/50">
+        <div className="bg-light flex h-[95vh] flex-col overflow-y-auto rounded-md border-none px-6 py-6 md:w-[45vw] md:px-10">
+          <header className="flex h-fit flex-row text-left">
+            <p className="text-dark font-clash-grotesk flex-1 text-xl font-semibold">
+              Login
+            </p>
+            <MdClose className="size-6 hover:cursor-pointer hover:opacity-70" />
+          </header>
+
+          <LoginForm />
+        </div>
+      </main>
+
+      <div className="bg-primary hidden h-12 w-12 rounded-full"></div> */}
+
+      <Link
+        href={"/login"}
+        className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
+      >
+        Login
+      </Link>
     </ul>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaVirus } from "react-icons/fa";
 import { MdContacts, MdHome, MdInfo } from "react-icons/md";
@@ -114,10 +115,13 @@ function MobileNav() {
             </li>
           </ul>
 
-          <div className="px-3 py-10">
-            <button className="bg-primary text-light w-full rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70">
+          <div className="border-test px-3 py-10">
+            <Link
+              href={"/login"}
+              className="bg-primary text-light flex-1 rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
+            >
               Login
-            </button>
+            </Link>
           </div>
         </div>
       </label>

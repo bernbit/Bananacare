@@ -5,8 +5,6 @@ import React from "react";
 //Next
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
 //Shadcn
 import { Button } from "@/components/ui/button";
 import {
@@ -23,42 +21,63 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { loginSchema } from "@/lib/zod";
+import { signUpSchema } from "@/lib/zod";
 //Actions
 import { handleLogin } from "@/actions/actions";
 
-function LoginForm() {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+function SignupForm() {
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleLogin(values);
+    // console.log(values);
   }
 
   return (
     <div className="flex flex-1 flex-col gap-2 md:flex-col">
       {/* Login Form */}
-      <div className="flex-1 py-4">
+      <div className="flex flex-1 flex-col justify-center py-4">
         <p className="text-secondary text-center text-xl font-bold">
-          Hello <span className="text-primary">Again!</span>
+          Join <span className="text-primary">Now!</span>
         </p>
         <p className="text-center text-sm">
-          Sign in to continue your experience and access full features.
+          Quickly sign up to access all features and personalize your experience
         </p>
 
         <Form {...form}>
           <form
             // action={handleLogin}
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-1 flex-col gap-4 pt-4"
+            className="flex flex-col gap-4 pt-4"
           >
+            {/* Name Input Field */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="text-dark flex flex-col gap-1">
+                  <FormLabel className="text-primary font-semibold">
+                    Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="focus-visible:ring-primary focus-within:border-primary border-dark placeholder: text-dark placeholder:text-dark/60 rounded-sm font-medium focus-visible:ring-1"
+                      placeholder="Enter your full name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-600" />
+                </FormItem>
+              )}
+            />
+
             {/* Email Input Field */}
             <FormField
               control={form.control}
@@ -105,60 +124,21 @@ function LoginForm() {
               type="submit"
               className="text-light text-base hover:cursor-pointer"
             >
-              Login
+              Signup
             </Button>
           </form>
         </Form>
 
         <p className="py-4 text-center text-sm">
-          Doesn't have an account?
-          <span
-            onClick={() => router.push("/signup")}
+          Already have an account?
+          <Link
+            href={"/login"}
             className="text-primary hover:cursor-pointer hover:opacity-70"
           >
             {" "}
-            Create one
-          </span>
+            Login Here
+          </Link>
         </p>
-      </div>
-
-      {/* Social Media Login */}
-      <div className="flex flex-1 flex-col gap-2">
-        <div className="flex items-center gap-2 py-2">
-          <hr className="flex-1" />
-          <p className="text-primary text-center font-medium">or login with</p>
-          <hr className="flex-1" />
-        </div>
-
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
-          <Image
-            src="/img/google.png"
-            width={25}
-            height={25}
-            alt="google icon"
-          />
-          <p className="font-medium">Continue with Google</p>
-        </button>
-
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
-          <Image
-            src="/img/facebook.png"
-            width={25}
-            height={25}
-            alt="google icon"
-          />
-          <p className="font-medium">Continue with Facebook</p>
-        </button>
-
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
-          <Image
-            src="/img/github.png"
-            width={25}
-            height={25}
-            alt="google icon"
-          />
-          <p className="font-medium">Continue with GitHub</p>
-        </button>
       </div>
 
       <p className="text-center font-medium">Detect Banana Disease with Ease</p>
@@ -166,4 +146,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignupForm;

@@ -8,6 +8,7 @@ import prisma from "./prisma";
 import { loginSchema } from "./zod";
 //UUID
 import { v4 as uuid } from "uuid";
+import { encode as defaultEncode } from "next-auth/jwt";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),

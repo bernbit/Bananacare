@@ -31,23 +31,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Overview",
     url: "/admin",
     icon: RiHome5Line,
   },
   {
-    title: "Table",
+    title: "Reports",
     url: "/admin/table",
     icon: RiTableLine,
   },
   {
-    title: "Chart",
+    title: "Analytics",
     url: "/admin/chart",
     icon: RiBarChart2Line,
   },
 
   {
-    title: "User",
+    title: "Users",
     url: "/admin/users",
     icon: RiUserLine,
   },

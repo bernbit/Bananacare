@@ -1,7 +1,7 @@
 import Navbar from "@/components/user/Navbar";
 import React from "react";
 
-function UserLayout({
+async function UserLayout({
   about,
   disease,
   home,

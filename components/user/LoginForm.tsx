@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginSchema } from "@/lib/zod";
 //Actions
-import { handleLogin } from "@/actions/actions";
+import { handleLogin, handleLogout } from "@/lib/actions";
 
 function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({

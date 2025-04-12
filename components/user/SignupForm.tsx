@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signUpSchema } from "@/lib/zod";
 //Actions
-import { handleLogin } from "@/actions/actions";
+import { handleLogin } from "@/lib/actions";
 
 function SignupForm() {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -37,7 +37,6 @@ function SignupForm() {
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     await handleLogin(values);
-    // console.log(values);
   }
 
   return (

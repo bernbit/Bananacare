@@ -9,7 +9,7 @@ export default function AdminLayout({
   return (
     <SidebarProvider className="">
       <Admin_Sidebar />
-      <main className="bg-light flex-1">{children}</main>
+      <main className="bg-light flex-1 overflow-auto">{children}</main>
     </SidebarProvider>
   );
 }

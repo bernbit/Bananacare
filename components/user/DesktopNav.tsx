@@ -1,56 +1,43 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-
-import { MdClose } from "react-icons/md";
-
-import LoginForm from "@/components/user/LoginForm";
+import { handleLogout } from "@/lib/actions";
 
 function DesktopNav() {
-  const [activeNav, setActiveNav] = useState<string>("home");
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   const sectionIds = ["home", "disease", "about", "contact"];
+  const [activeNav, setActiveNav] = useState<string>("home");
+  const activeNavRef = useRef(activeNav); // Keep track of current without re-rendering
 
   useEffect(() => {
     const handleScroll = () => {
-      let currentSection = activeNav;
-
       for (const id of sectionIds) {
         const section = document.getElementById(id);
         if (section) {
           const rect = section.getBoundingClientRect();
-          // Check if the section is at least partially in view
           if (
             rect.top <= window.innerHeight / 2 &&
             rect.bottom >= window.innerHeight / 2
           ) {
-            currentSection = id;
+            if (activeNavRef.current !== id) {
+              activeNavRef.current = id;
+              setActiveNav(id);
+            }
             break;
           }
         }
-      }
-
-      if (currentSection !== activeNav) {
-        setActiveNav(currentSection);
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeNav]);
+  }, []);
 
   const handleNavClick = (id: string) => {
     const element = document.getElementById(id);
@@ -58,77 +45,50 @@ function DesktopNav() {
       element.scrollIntoView({ behavior: "smooth" });
     }
     setActiveNav(id);
+    activeNavRef.current = id;
+  };
+
+  const onLogout = async () => {
+    await handleLogout();
+    router.push("/");
   };
 
   return (
     <ul className="hidden flex-1 flex-row items-center justify-end gap-4 font-semibold md:flex">
-      <li
-        className={`hover:text-primary whitespace-nowrap hover:cursor-pointer ${activeNav === "home" ? "text-primary" : "text-dark"}`}
-        onClick={() => handleNavClick("home")}
-      >
-        Home
-      </li>
-      <li
-        className={`hover:text-primary whitespace-nowrap hover:cursor-pointer ${activeNav === "disease" ? "text-primary" : "text-dark"}`}
-        onClick={() => handleNavClick("disease")}
-      >
-        Disease
-      </li>
-      <li
-        className={`hover:text-primary whitespace-nowrap hover:cursor-pointer ${activeNav === "about" ? "text-primary" : "text-dark"}`}
-        onClick={() => handleNavClick("about")}
-      >
-        About
-      </li>
-      <li
-        className={`hover:text-primary whitespace-nowrap hover:cursor-pointer ${activeNav === "contact" ? "text-primary" : "text-dark"}`}
-        onClick={() => handleNavClick("contact")}
-      >
-        Contact Us
-      </li>
+      {sectionIds.map((id) => (
+        <li
+          key={id}
+          className={`hover:text-primary whitespace-nowrap hover:cursor-pointer ${
+            activeNav === id ? "text-primary" : "text-dark"
+          }`}
+          onClick={() => handleNavClick(id)}
+        >
+          {id === "contact"
+            ? "Contact Us"
+            : id.charAt(0).toUpperCase() + id.slice(1)}
+        </li>
+      ))}
 
-      {/* <AlertDialog>
-        <AlertDialogTrigger className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70">
+      {status === "loading" ? (
+        <p>Loading...</p>
+      ) : status === "authenticated" && session?.user ? (
+        <>
+          <p className="text-dark">Welcome, {session.user.name}</p>
+          <button
+            className="text-light rounded-md bg-red-600 px-6 py-1 hover:opacity-70"
+            onClick={onLogout}
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <Link
+          href="/login"
+          className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
+        >
           Login
-        </AlertDialogTrigger>
-
-        <AlertDialogContent className="bg-light flex h-[95vh] flex-col overflow-y-auto border-none md:min-w-[45vw] md:px-10">
-          <AlertDialogHeader className="h-fit text-left">
-            <AlertDialogTitle className="flex items-center">
-              <p className="text-dark font-clash-grotesk flex-1 text-xl font-semibold">
-                Login
-              </p>
-              <AlertDialogCancel className="border-none text-right shadow-none hover:cursor-pointer hover:opacity-70">
-                <MdClose className="size-6" />
-              </AlertDialogCancel>
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-
-          <LoginForm />
-        </AlertDialogContent>
-      </AlertDialog> */}
-
-      {/* <main className="border-test fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/50">
-        <div className="bg-light flex h-[95vh] flex-col overflow-y-auto rounded-md border-none px-6 py-6 md:w-[45vw] md:px-10">
-          <header className="flex h-fit flex-row text-left">
-            <p className="text-dark font-clash-grotesk flex-1 text-xl font-semibold">
-              Login
-            </p>
-            <MdClose className="size-6 hover:cursor-pointer hover:opacity-70" />
-          </header>
-
-          <LoginForm />
-        </div>
-      </main>
-
-      <div className="bg-primary hidden h-12 w-12 rounded-full"></div> */}
-
-      <Link
-        href={"/login"}
-        className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
-      >
-        Login
-      </Link>
+        </Link>
+      )}
     </ul>
   );
 }

@@ -24,6 +24,13 @@
   --color-primary-var: #38b939;
   --color-secondary: #fece2e;
   --color-secondary-var: #ffea32;
+  /* Disease Color */
+  --color-black-sigatoka: #22b123;
+  --color-cordana: #1b8e1c;
+  --color-bmv: #0e470e;
+  --color-moko: #feba17;
+  --color-panama: #fece2e;
+  --color-weevil: #fed858;
   /* Fonts */
   --font-raleway: var(--font-raleway);
   --font-clash-grotesk: var(--font-clash-grotesk);
@@ -93,12 +100,3 @@ body {
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
-
-/* @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-} */

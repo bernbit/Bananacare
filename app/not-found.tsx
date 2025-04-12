@@ -4,13 +4,13 @@
 import { useEffect } from "react";
 
 export default function Custom404() {
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      window.location.reload();
-    }, 1); // reload after 5 seconds
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     window.location.reload();
+  //   }, 1); // reload after 5 seconds
 
-    return () => clearTimeout(timeout);
-  }, []);
+  //   return () => clearTimeout(timeout);
+  // }, []);
 
   return (
     <div className="bg-primary/80">

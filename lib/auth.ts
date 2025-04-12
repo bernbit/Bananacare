@@ -28,9 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user) {
-          throw new Error(
-            "An error occurred during the authentication process.",
-          );
+          throw new Error("Account Doesn't Exist");
         }
 
         return user;

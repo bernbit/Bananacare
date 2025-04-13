@@ -173,7 +173,7 @@ const chartConfig = {
 
 export default function Admin_StackBarChart() {
   return (
-    <Card className="bg-light border-none shadow-none">
+    <Card className="bg-light flex-1 rounded-md border-none shadow-none">
       <CardHeader>
         <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
@@ -188,7 +188,7 @@ export default function Admin_StackBarChart() {
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => {
-                const maxLength = 5;
+                const maxLength = 3;
                 return value.length > maxLength
                   ? value.slice(0, maxLength) + "..."
                   : value;

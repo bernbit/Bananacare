@@ -31,7 +31,7 @@ interface ChartPropsType {
 
 export function Admin_BarChart({ chartData, chartConfig }: ChartPropsType) {
   return (
-    <Card className="bg-light w rounded-md">
+    <Card className="bg-light flex-1 rounded-md border-none">
       <CardHeader>
         <CardTitle>Bar Chart</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

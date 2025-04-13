@@ -5,6 +5,7 @@ import { MdScanner } from "react-icons/md";
 import { LuScanLine } from "react-icons/lu";
 import MiniCard from "@/components/admin/MiniCard";
 import { Admin_BarChart } from "@/components/admin/Admin_BarChart";
+import Admin_StackBarChart from "@/components/admin/Admin_StackBarChart";
 
 function AdminHome() {
   const chartData = [
@@ -51,23 +52,24 @@ function AdminHome() {
   return (
     <>
       <Admin_Header title="Overview" />
-      <div className="bg-primary/20 h-full rounded-2xl border-none p-4">
+      <div className="bg-primary/20 flex h-full flex-col gap-2 rounded-2xl border-none p-4">
         {/* Card */}
-        <div className="border-test flex gap-2">
+        <div className="border-test flex flex-col gap-2">
           <MiniCard
             icon={<LuScanLine className="text-primary size-5" />}
-            label={"Total Scan"}
+            label={"Current Scan"}
             data={"334"}
           />
           <MiniCard
             icon={<FaUsers className="text-primary size-5" />}
-            label={"Total User"}
+            label={"Current"}
             data={"454"}
           />
         </div>
-
+        {/* Graph */}
         <div>
           <Admin_BarChart chartConfig={chartConfig} chartData={chartData} />
+          <Admin_StackBarChart />
         </div>
       </div>
     </>

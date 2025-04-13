@@ -18,6 +18,23 @@ function page() {
     { key: "moko", value: 173, fill: "var(--color-moko)" },
     { key: "panama", value: 230, fill: "var(--color-panama)" },
     { key: "weevil", value: 123, fill: "var(--color-weevil)" },
+    {
+      key: "black-sigatoka",
+      value: 300,
+      fill: "var(--color-black-sigatoka)",
+    },
+    { key: "cordana", value: 200, fill: "var(--color-cordana)" },
+    {
+      key: "bract-mosaic-virus",
+      value: 187,
+      fill: "var(--color-bmv",
+    },
+    { key: "moko", value: 173, fill: "var(--color-moko)" },
+    { key: "panama", value: 230, fill: "var(--color-panama)" },
+    { key: "weevil", value: 123, fill: "var(--color-weevil)" },
+    { key: "weevil", value: 123, fill: "var(--color-weevil)" },
+    { key: "weevil", value: 123, fill: "var(--color-weevil)" },
+    { key: "weevil", value: 123, fill: "var(--color-weevil)" },
   ];
 
   const chartConfig = {

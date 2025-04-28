@@ -1,6 +1,7 @@
 "use client";
+
 //React
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 //Next
 import NextImage from "next/image";
 //Zod
@@ -13,13 +14,9 @@ import { useForm } from "react-hook-form";
 import { MdCloudUpload, MdClose } from "react-icons/md";
 //Tensorflow
 import * as tf from "@tensorflow/tfjs";
+import { loadModel, preprocessImage, makePrediction } from "@/lib/tensorflow";
 //Constant
-import {
-  bananaDiseases,
-  BananaDiseaseType,
-  barangay,
-  augmentationSteps,
-} from "@/lib/constant";
+import { BananaDiseaseType, barangay, augmentationSteps } from "@/lib/constant";
 //React Drop Zone
 import { useDropzone } from "react-dropzone";
 //Shadcn
@@ -40,29 +37,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  AlertDialogHeader,
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Progress } from "@/components/ui/progress";
 //Custom Component
-import Stepper from "../user/Stepper";
-
-//* Register the L2 Regularizer
-class L2 {
-  static className = "L2";
-  constructor(config: any) {
-    return tf.regularizers.l1l2(config);
-  }
-}
-tf.serialization.registerClass(L2 as any);
+import LoaderModal from "../modals/LoaderModal";
+import ResultModal from "../modals/ResultModal";
 
 export function ScanForm() {
-  //useState
+  //* useState
   const [showResult, setShowResult] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [model, setModel] = useState<tf.LayersModel | null>(null);
@@ -70,15 +50,16 @@ export function ScanForm() {
   const [currentStep, setCurrentStep] = useState<number>(-1);
   const [rankedResults, setRankedResults] = useState<BananaDiseaseType[]>([]);
 
-  //useEffect
+  //* useEffect
   // Load Model useEffect
   useEffect(() => {
-    const loadModel = async () => {
-      const loadedModel = await tf.loadLayersModel("/model/model.json");
+    const load = async () => {
+      const loadedModel = await loadModel("/model/model.json");
       setModel(loadedModel);
     };
-    loadModel();
+    load();
   }, []);
+
   // Show Loader useEffect
   useEffect(() => {
     let interval: any;
@@ -104,7 +85,7 @@ export function ScanForm() {
     return () => clearInterval(interval); // Clean up when showLoader changes or unmounts
   }, [showLoader]);
 
-  //Functions
+  //* Functions
   const form = useForm<z.infer<typeof scanSchema>>({
     resolver: zodResolver(scanSchema),
     defaultValues: {
@@ -116,48 +97,18 @@ export function ScanForm() {
     },
   });
 
-  // const handleImagepreviewImg = (file: File) => {
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => setPreviewImg(reader.result as string);
-  //   reader.readAsDataURL(file);
-  // };
-
-  const loadImage = (file: File): Promise<HTMLImageElement> => {
-    return new Promise((resolve) => {
-      const img = new window.Image();
-      img.onload = () => resolve(img);
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
   const onSubmit = async (values: z.infer<typeof scanSchema>) => {
-    setShowLoader(true);
     if (!model) return;
 
-    const file = values.file[0];
-
-    const image = await loadImage(file);
-    const tensor = tf.browser
-      .fromPixels(image)
-      .resizeNearestNeighbor([224, 224])
-      .toFloat()
-      .div(tf.scalar(255))
-      .expandDims();
-
-    const prediction = model.predict(tensor) as tf.Tensor;
-    const predictionArray = Array.from(await prediction.data());
-    const diseasesWithPercentage = bananaDiseases
-      .map((disease, index) => ({
-        ...disease,
-        percentage: parseFloat((predictionArray[index] * 100).toFixed(2)),
-      }))
-      .filter((disease) => disease.id !== "not" && disease.id !== "healthy") // exclude unwanted
-      .sort((a, b) => b.percentage - a.percentage); // sort descending
-    setRankedResults(diseasesWithPercentage);
+    setShowLoader(true);
+    const bananaImage = values.file[0];
+    const tensor = await preprocessImage(bananaImage);
+    const results = await makePrediction(model, tensor);
+    setRankedResults(results);
   };
 
   const resetForm = () => {
-    setPreviewImg("");
+    setPreviewImg(null);
     form.reset();
     setShowResult(false);
     setRankedResults([]);
@@ -392,127 +343,23 @@ export function ScanForm() {
         </form>
       </Form>
 
-      {/* Result Modal */}
-      <AlertDialog open={showResult} onOpenChange={setShowResult}>
-        <AlertDialogContent className="bg-light flex h-[95vh] flex-col overflow-y-auto border-none md:min-w-[48vw] md:px-10">
-          <AlertDialogHeader className="h-fit text-left">
-            <AlertDialogTitle className="flex items-center">
-              <p className="text-dark font-clash-grotesk flex-1 text-xl font-semibold">
-                Result and Recommendation
-              </p>
-              <AlertDialogCancel
-                className="border-none text-right shadow-none hover:cursor-pointer hover:opacity-70"
-                onClick={resetForm}
-              >
-                <MdClose className="size-6" />
-              </AlertDialogCancel>
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-
-          {/* Body */}
-          <div className="border-primary bg-primary/20 flex-1 rounded-md p-4">
-            {/* Banana Image */}
-            <div className="bg-primary/20 relative flex aspect-square max-h-[400px] w-full flex-col overflow-hidden rounded-t-md px-4 py-4">
-              {previewImg && (
-                <NextImage
-                  src={previewImg}
-                  fill
-                  className="object-center"
-                  alt="Banana Image"
-                  unoptimized
-                />
-              )}
-
-              <div className="bg-dark/70 absolute inset-0 flex h-full w-full items-center justify-center">
-                <div className="bg-primary rounded-md p-2 hover:opacity-70">
-                  <p className="text-light font-bold">
-                    {rankedResults[0]?.name}
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Result and Recommendation */}
-            <div className="border-primary bg-light flex flex-col gap-2 rounded-b-md px-2 py-4">
-              {/* Result */}
-              <div className="flex flex-col gap-1 rounded-md">
-                <p className="text-dark rounded-md text-sm font-bold">Result</p>
-                {rankedResults.map((result, index) => (
-                  <div
-                    className="text-light flex items-center justify-center gap-2 rounded-md px-2 py-2"
-                    style={{
-                      backgroundColor: result?.color,
-                      color: result?.textColor,
-                    }}
-                    key={index}
-                  >
-                    <p className="bg-dark/40 text-light border-light/20 basis-2/12 rounded-sm border px-2 py-1.5 text-center text-sm">
-                      {`${result?.percentage}%`}
-                    </p>
-                    <div className="flex flex-1 flex-col justify-center gap-0.5">
-                      <Progress value={result?.percentage} />
-                      <p className="text-sm">{result?.name}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Recommendation */}
-              <div className="flex flex-col gap-1 rounded-md">
-                <p className="text-dark rounded-md text-sm font-bold">
-                  Recommendation
-                </p>
-                <div className="flex flex-col gap-1">
-                  {rankedResults[0]?.recommendations?.map(
-                    (recommend, index) => (
-                      <div
-                        className="bg-primary flex items-center gap-1 rounded-md px-2 py-2"
-                        key={index}
-                      >
-                        <p className="text-light rounded-md text-sm">
-                          {recommend}
-                        </p>
-                      </div>
-                    ),
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-
       {/* Loader Modal */}
-      <AlertDialog open={showLoader} onOpenChange={setShowLoader}>
-        <AlertDialogContent className="bg-light flex h-[95vh] flex-col overflow-y-auto border-none md:min-w-[48vw] md:px-10">
-          <AlertDialogHeader className="hidden h-fit text-left">
-            <AlertDialogTitle className="flex items-center"></AlertDialogTitle>
-          </AlertDialogHeader>
+      <LoaderModal
+        open={showLoader}
+        onClose={() => setShowLoader(false)}
+        currentStep={currentStep}
+        previewImg={previewImg}
+        augmentationSteps={augmentationSteps}
+      />
 
-          <div className="flex h-full flex-col">
-            <div
-              className={`bg-primary/20 border-primary flex w-full flex-1 flex-col items-center justify-center rounded-md px-4 py-4`}
-            >
-              <div className="relative aspect-square max-h-[500px] w-full flex-1 overflow-hidden rounded-md">
-                {previewImg && (
-                  <NextImage
-                    src={previewImg}
-                    fill
-                    className={`${augmentationSteps[currentStep]?.animation} animate-steps object-center`}
-                    alt="Banana Image"
-                    unoptimized
-                  />
-                )}
-              </div>
-            </div>
-            {/* Stepper */}
-            <Stepper currentStep={currentStep} />
-            <div className="text-center">
-              <p className="text-lg font-bold">{`${augmentationSteps[currentStep]?.subtitle}...`}</p>
-              <p className="text-sm">{`${augmentationSteps[currentStep]?.description}`}</p>
-            </div>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Result Modal */}
+      <ResultModal
+        open={showResult}
+        onClose={() => setShowResult(false)}
+        rankedResults={rankedResults}
+        resetForm={resetForm}
+        previewImg={previewImg}
+      />
     </>
   );
 }

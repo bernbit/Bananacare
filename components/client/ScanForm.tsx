@@ -1,11 +1,28 @@
 "use client";
-
+//React
+import { useState, useEffect, useRef, useCallback } from "react";
+//Next
 import NextImage from "next/image";
-import { useState, useEffect, useRef } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+//Zod
 import { z } from "zod";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { scanSchema } from "@/lib/zod";
+//React Hook Form
+import { useForm } from "react-hook-form";
+// React Icons
+import { MdCloudUpload, MdClose } from "react-icons/md";
+//Tensorflow
+import * as tf from "@tensorflow/tfjs";
+//Constant
+import {
+  bananaDiseases,
+  BananaDiseaseType,
+  barangay,
+  augmentationSteps,
+} from "@/lib/constant";
+//React Drop Zone
+import { useDropzone } from "react-dropzone";
+//Shadcn
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,203 +31,96 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import {
+  AlertDialogHeader,
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Progress } from "@/components/ui/progress";
+//Custom Component
+import Stepper from "../user/Stepper";
 
-import { MdCloudUpload } from "react-icons/md";
-import { MdClose } from "react-icons/md";
-
-import * as tf from "@tensorflow/tfjs";
-
-// Register the L2 regularizer
+//* Register the L2 Regularizer
 class L2 {
   static className = "L2";
   constructor(config: any) {
     return tf.regularizers.l1l2(config);
   }
 }
-tf.serialization.registerClass(L2);
-
-const labels = [
-  "Banana Black Sigatoka Disease",
-  "Banana Bract Mosaic Virus Disease",
-  "Banana Cordana Disease",
-  "Banana Healthy Leaf",
-  "Banana Moko Disease",
-  "Banana Panama Disease",
-  "Not Banana",
-  "Banana Weevil Disease",
-];
-
-const bananaDiseases = [
-  {
-    name: "Banana Black Sigatoka Disease (Mycosphaerella fijiensis)",
-    recommendations: [
-      "Use resistant cultivars if available.",
-      "Prune and remove infected leaves to reduce spore load.",
-      "Improve air circulation by maintaining proper spacing.",
-      "Apply fungicides like mancozeb, propiconazole, or chlorothalonil based on local agricultural guidelines.",
-    ],
-  },
-  {
-    name: "Banana Bract Mosaic Virus Disease (BBMV)",
-    recommendations: [
-      "Use virus-free planting materials.",
-      "Control vector insects like aphids and thrips using insecticides.",
-      "Regularly inspect and remove infected plants.",
-      "Avoid intercropping with susceptible hosts (e.g., sugarcane).",
-    ],
-  },
-  {
-    name: "Banana Cordana Disease (Cordana musae)",
-    recommendations: [
-      "Improve drainage and reduce excess humidity.",
-      "Remove and destroy infected leaves.",
-      "Apply fungicides (like copper-based ones) as needed.",
-      "Avoid mechanical damage to plants.",
-    ],
-  },
-  {
-    name: "Banana Healthy",
-    recommendations: [
-      "Continue good agricultural practices.",
-      "Use disease-free planting materials.",
-      "Apply organic mulch and compost.",
-      "Regularly monitor for pests and diseases.",
-      "Maintain proper irrigation and fertilization schedules.",
-    ],
-  },
-  {
-    name: "Banana Moko Disease (Ralstonia solanacearum)",
-    recommendations: [
-      "Remove and destroy infected plants immediately.",
-      "Use clean, disinfected tools.",
-      "Avoid movement of soil and water from infected areas.",
-      "Use resistant varieties where available.",
-      "Implement strict quarantine measures in affected areas.",
-    ],
-  },
-  {
-    name: "Banana Panama Disease (Fusarium oxysporum f. sp. cubense)",
-    recommendations: [
-      "Use Fusarium-resistant banana cultivars (e.g., GCTCV-218 or FHIA varieties).",
-      "Avoid planting in contaminated soil.",
-      "Improve soil health with organic amendments and biofungicides.",
-      "Rotate crops with non-host species (e.g., legumes).",
-    ],
-  },
-  {
-    name: "Not Banana",
-    recommendations: [],
-  },
-  {
-    name: "Banana Weevil Disease (Cosmopolites sordidus)",
-    recommendations: [
-      "Use clean planting material.",
-      "Apply pseudostem traps to monitor and control adult weevils.",
-      "Use entomopathogenic fungi or insecticides if infestation is severe.",
-      "Remove plant residues that attract weevils.",
-    ],
-  },
-];
-
-const formSchema = z.object({
-  file: z.instanceof(FileList).refine((files) => files.length > 0, {
-    message: "File is required.",
-  }),
-  name: z.string().min(2, {
-    message: "Provide Full Name",
-  }),
-  address: z.string().min(1, {
-    message: "Adrress is required.",
-  }),
-  age: z.coerce
-    .number()
-    .min(1, {
-      message: "Age must be at least 1",
-    })
-    .max(120, {
-      message: "Age must be less than 120",
-    }),
-  email: z.string().email({
-    message: "Invalid email address",
-  }),
-  phoneNumber: z
-    .string()
-    .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(15, { message: "Phone number is too long" })
-    .regex(/^\+?[0-9]+$/, { message: "Invalid phone number format" }),
-});
-
-const barangay = [
-  { title: "Alcadesma" },
-  { title: "Bato" },
-  { title: "Conrazon" },
-  { title: "Malo" },
-  { title: "Manihala" },
-  { title: "Pag-asa" },
-  { title: "Poblacion" },
-  { title: "Proper Bansud" },
-  { title: "Rosacara" },
-  { title: "Salcedo" },
-  { title: "Sumagui" },
-  { title: "Proper Tiguisan" },
-  { title: "Villa Pag-asa" },
-];
+tf.serialization.registerClass(L2 as any);
 
 export function ScanForm() {
+  //useState
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
   const [model, setModel] = useState<tf.LayersModel | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [disease, setDisease] = useState<{
-    name: string;
-    recommendations: string[];
-  }>({
-    name: "",
-    recommendations: [],
-  });
-  const [percentage, setPercentage] = useState<string | null>(null);
+  const [previewImg, setPreviewImg] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState<number>(-1);
+  const [rankedResults, setRankedResults] = useState<BananaDiseaseType[]>([]);
 
-  const imageRef = useRef<HTMLImageElement>(null);
+  //useEffect
+  // Load Model useEffect
+  useEffect(() => {
+    const loadModel = async () => {
+      const loadedModel = await tf.loadLayersModel("/model/model.json");
+      setModel(loadedModel);
+    };
+    loadModel();
+  }, []);
+  // Show Loader useEffect
+  useEffect(() => {
+    let interval: any;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    if (showLoader) {
+      setCurrentStep(0); // Reset on new start
+      setShowResult(false); // Hide result initially
+
+      interval = setInterval(() => {
+        setCurrentStep((prev) => {
+          if (prev < 7) {
+            return prev + 1;
+          } else {
+            clearInterval(interval);
+            setShowResult(true);
+            setShowLoader(false); // optional: stop loader once done
+            return prev;
+          }
+        });
+      }, 5000);
+    }
+
+    return () => clearInterval(interval); // Clean up when showLoader changes or unmounts
+  }, [showLoader]);
+
+  //Functions
+  const form = useForm<z.infer<typeof scanSchema>>({
+    resolver: zodResolver(scanSchema),
     defaultValues: {
       name: "",
-
       address: "",
-      age: 0, // Default age
+      age: "" as unknown as number,
       email: "",
       phoneNumber: "",
     },
   });
 
-  const handleImagePreview = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => setPreview(reader.result as string);
-    reader.readAsDataURL(file);
-  };
+  // const handleImagepreviewImg = (file: File) => {
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => setPreviewImg(reader.result as string);
+  //   reader.readAsDataURL(file);
+  // };
 
   const loadImage = (file: File): Promise<HTMLImageElement> => {
     return new Promise((resolve) => {
@@ -220,11 +130,11 @@ export function ScanForm() {
     });
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof scanSchema>) => {
+    setShowLoader(true);
     if (!model) return;
-    // setLoading(true);
+
     const file = values.file[0];
-    handleImagePreview(file);
 
     const image = await loadImage(file);
     const tensor = tf.browser
@@ -236,28 +146,22 @@ export function ScanForm() {
 
     const prediction = model.predict(tensor) as tf.Tensor;
     const predictionArray = Array.from(await prediction.data());
-
-    const maxVal = Math.max(...predictionArray);
-    const maxIdx = predictionArray.indexOf(maxVal);
-    // setPredictedLabel(`${labels[maxIdx]} (${(maxVal * 100).toFixed(2)}%)`);
-    setDisease(bananaDiseases[maxIdx]);
-    setPercentage(`${(maxVal * 100).toFixed(2)}%)`);
-    setShowResult(true);
+    const diseasesWithPercentage = bananaDiseases
+      .map((disease, index) => ({
+        ...disease,
+        percentage: parseFloat((predictionArray[index] * 100).toFixed(2)),
+      }))
+      .filter((disease) => disease.id !== "not" && disease.id !== "healthy") // exclude unwanted
+      .sort((a, b) => b.percentage - a.percentage); // sort descending
+    setRankedResults(diseasesWithPercentage);
   };
 
   const resetForm = () => {
-    setPreview("");
+    setPreviewImg("");
     form.reset();
     setShowResult(false);
+    setRankedResults([]);
   };
-
-  useEffect(() => {
-    const loadModel = async () => {
-      const loadedModel = await tf.loadLayersModel("/model/model.json");
-      setModel(loadedModel);
-    };
-    loadModel();
-  }, []);
 
   return (
     <>
@@ -267,57 +171,99 @@ export function ScanForm() {
           className="flex flex-col gap-4 pt-4"
         >
           {/* Image Input Field */}
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field }) => {
+              //React Drop Zone
+              const onDrop = useCallback(
+                (acceptedFiles: File[]) => {
+                  field.onChange(acceptedFiles);
+                  if (acceptedFiles[0]) {
+                    const imageFile = acceptedFiles[0];
+                    const reader = new FileReader();
+                    reader.onloadend = () =>
+                      setPreviewImg(reader.result as string);
+                    reader.readAsDataURL(imageFile);
+                  }
+                },
+                [field],
+              );
 
-          {!preview ? (
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel className="text-primary flex flex-col font-semibold hover:cursor-pointer hover:opacity-70">
-                    <p className="w-full">Upload File</p>
-                    <div className="bg-primary/10 border-primary flex min-h-[250px] w-full flex-col items-center justify-center rounded-md border-2 border-dashed py-6">
-                      <MdCloudUpload className="text-8xl" />
-                      <p className="text-dark text-lg font-semibold">
-                        Click to Upload Image
-                      </p>
-                      <p className="text-primary">SVG, PNG, JPG or GIF</p>
-                    </div>
+              const { getRootProps, getInputProps, isDragActive } = useDropzone(
+                {
+                  onDrop,
+                  accept: { "image/*": [] },
+                  multiple: false,
+                },
+              );
+
+              return (
+                <FormItem>
+                  <FormLabel className="text-primary font-semibold">
+                    Upload Image
                   </FormLabel>
 
-                  <FormControl className="border-primary flex cursor-pointer">
-                    <Input
-                      className="hidden"
-                      type="file"
-                      accept="image/*"
-                      onChange={(event) => {
-                        if (event.target.files && event.target.files[0]) {
-                          field.onChange(event.target.files); // Correct file input handling
-                          handleImagePreview(event.target.files[0]);
-                        }
-                      }}
-                    />
-                  </FormControl>
+                  {!previewImg ? (
+                    // Upload/Drag Zone
+                    <div
+                      {...getRootProps()}
+                      className="text-primary flex flex-col font-semibold hover:cursor-pointer hover:opacity-70"
+                    >
+                      <div
+                        className={`bg-primary/20 border-primary flex aspect-square max-h-[400px] w-full flex-col items-center justify-center rounded-md border-2 border-dashed py-6 ${
+                          isDragActive ? "bg-primary/30" : ""
+                        }`}
+                      >
+                        <MdCloudUpload className="text-8xl" />
+                        <p className="text-dark text-base font-semibold">
+                          {isDragActive
+                            ? "Drop the image here..."
+                            : "Click or Drag to Upload Image"}
+                        </p>
+                        <p className="text-primary text-base">
+                          SVG, PNG, JPG or GIF
+                        </p>
+                      </div>
+
+                      <input {...getInputProps()} className="hidden" />
+                    </div>
+                  ) : (
+                    // Image Preview
+                    previewImg && (
+                      <div
+                        className={`bg-primary/20 border-primary flex aspect-square max-h-[400px] w-full flex-col rounded-md border-2 border-dashed px-4 py-4`}
+                      >
+                        <div className="relative flex-1 overflow-hidden rounded-md">
+                          <NextImage
+                            src={previewImg}
+                            fill
+                            className="object-center"
+                            alt="sample"
+                            unoptimized
+                          />
+
+                          <div
+                            className="bg-dark absolute top-0 right-0 z-50 m-2 aspect-square rounded-full p-1 hover:cursor-pointer hover:opacity-70"
+                            onClick={() => {
+                              setPreviewImg(null);
+                              field.onChange([]);
+                            }}
+                          >
+                            <MdClose className="text-light text-lg" />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
 
                   <FormMessage className="text-red-600" />
                 </FormItem>
-              )}
-            />
-          ) : (
-            <div className="relative h-[250px]">
-              <NextImage
-                ref={imageRef}
-                src={preview || ""}
-                fill
-                className="h-full rounded-md"
-                alt="sample"
-                unoptimized
-              />
-            </div>
-          )}
+              );
+            }}
+          />
 
           {/* Name Input Field */}
-
           <FormField
             control={form.control}
             name="name"
@@ -368,16 +314,10 @@ export function ScanForm() {
                 <FormLabel className="text-primary font-semibold">
                   Address
                 </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl className="">
-                    <SelectTrigger className="focus-visible:ring-primary focus-within:border-primary border-dark placeholder:text-dark/60 w-full rounded-sm text-base font-medium focus-visible:ring-1">
-                      <SelectValue
-                        className=""
-                        placeholder="Select Barangay in Bansud"
-                      />
+                    <SelectTrigger className="focus-visible:ring-primary focus-within:border-primary border-dark w-full rounded-sm text-base font-medium focus-visible:ring-1">
+                      <SelectValue placeholder="Select Barangay in Bansud" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-light">
@@ -411,6 +351,7 @@ export function ScanForm() {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     className="focus-visible:ring-primary focus-within:border-primary border-dark placeholder: text-dark placeholder:text-dark/60 rounded-sm font-medium focus-visible:ring-1"
                     placeholder="Enter your age"
                     {...field}
@@ -451,6 +392,7 @@ export function ScanForm() {
         </form>
       </Form>
 
+      {/* Result Modal */}
       <AlertDialog open={showResult} onOpenChange={setShowResult}>
         <AlertDialogContent className="bg-light flex h-[95vh] flex-col overflow-y-auto border-none md:min-w-[48vw] md:px-10">
           <AlertDialogHeader className="h-fit text-left">
@@ -467,28 +409,106 @@ export function ScanForm() {
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <div className="flex-1">
-            <div className="relative h-[70%]">
-              <NextImage
-                ref={imageRef}
-                src={preview || ""}
-                fill
-                className="h-full rounded-md"
-                alt="sample"
-                unoptimized
-              />
+          {/* Body */}
+          <div className="border-primary bg-primary/20 flex-1 rounded-md p-4">
+            {/* Banana Image */}
+            <div className="bg-primary/20 relative flex aspect-square max-h-[400px] w-full flex-col overflow-hidden rounded-t-md px-4 py-4">
+              {previewImg && (
+                <NextImage
+                  src={previewImg}
+                  fill
+                  className="object-center"
+                  alt="Banana Image"
+                  unoptimized
+                />
+              )}
+
+              <div className="bg-dark/70 absolute inset-0 flex h-full w-full items-center justify-center">
+                <div className="bg-primary rounded-md p-2 hover:opacity-70">
+                  <p className="text-light font-bold">
+                    {rankedResults[0]?.name}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="py-4">
-              <p className="">Result</p>
-              <p className="text-lg font-bold">
-                {disease.name} <span>{percentage}</span>
-              </p>
-              <p className="pt-2">Recomendation</p>
-              {disease.recommendations.map((recommend, index) => (
-                <p key={index} className="font-bold">
-                  {recommend}
+            {/* Result and Recommendation */}
+            <div className="border-primary bg-light flex flex-col gap-2 rounded-b-md px-2 py-4">
+              {/* Result */}
+              <div className="flex flex-col gap-1 rounded-md">
+                <p className="text-dark rounded-md text-sm font-bold">Result</p>
+                {rankedResults.map((result, index) => (
+                  <div
+                    className="text-light flex items-center justify-center gap-2 rounded-md px-2 py-2"
+                    style={{
+                      backgroundColor: result?.color,
+                      color: result?.textColor,
+                    }}
+                    key={index}
+                  >
+                    <p className="bg-dark/40 text-light border-light/20 basis-2/12 rounded-sm border px-2 py-1.5 text-center text-sm">
+                      {`${result?.percentage}%`}
+                    </p>
+                    <div className="flex flex-1 flex-col justify-center gap-0.5">
+                      <Progress value={result?.percentage} />
+                      <p className="text-sm">{result?.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Recommendation */}
+              <div className="flex flex-col gap-1 rounded-md">
+                <p className="text-dark rounded-md text-sm font-bold">
+                  Recommendation
                 </p>
-              ))}
+                <div className="flex flex-col gap-1">
+                  {rankedResults[0]?.recommendations?.map(
+                    (recommend, index) => (
+                      <div
+                        className="bg-primary flex items-center gap-1 rounded-md px-2 py-2"
+                        key={index}
+                      >
+                        <p className="text-light rounded-md text-sm">
+                          {recommend}
+                        </p>
+                      </div>
+                    ),
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Loader Modal */}
+      <AlertDialog open={showLoader} onOpenChange={setShowLoader}>
+        <AlertDialogContent className="bg-light flex h-[95vh] flex-col overflow-y-auto border-none md:min-w-[48vw] md:px-10">
+          <AlertDialogHeader className="hidden h-fit text-left">
+            <AlertDialogTitle className="flex items-center"></AlertDialogTitle>
+          </AlertDialogHeader>
+
+          <div className="flex h-full flex-col">
+            <div
+              className={`bg-primary/20 border-primary flex w-full flex-1 flex-col items-center justify-center rounded-md px-4 py-4`}
+            >
+              <div className="relative aspect-square max-h-[500px] w-full flex-1 overflow-hidden rounded-md">
+                {previewImg && (
+                  <NextImage
+                    src={previewImg}
+                    fill
+                    className={`${augmentationSteps[currentStep]?.animation} animate-steps object-center`}
+                    alt="Banana Image"
+                    unoptimized
+                  />
+                )}
+              </div>
+            </div>
+            {/* Stepper */}
+            <Stepper currentStep={currentStep} />
+            <div className="text-center">
+              <p className="text-lg font-bold">{`${augmentationSteps[currentStep]?.subtitle}...`}</p>
+              <p className="text-sm">{`${augmentationSteps[currentStep]?.description}`}</p>
             </div>
           </div>
         </AlertDialogContent>

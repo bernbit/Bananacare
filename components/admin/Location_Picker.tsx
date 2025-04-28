@@ -8,24 +8,9 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
+import { barangay } from "@/lib/constant";
 
 function Location_Picker() {
-  const barangay = [
-    { title: "Alcadesma" },
-    { title: "Bato" },
-    { title: "Conrazon" },
-    { title: "Malo" },
-    { title: "Manihala" },
-    { title: "Pag-asa" },
-    { title: "Poblacion" },
-    { title: "Proper Bansud" },
-    { title: "Rosacara" },
-    { title: "Salcedo" },
-    { title: "Sumagui" },
-    { title: "Proper Tiguisan" },
-    { title: "Villa Pag-asa" },
-  ];
-
   return (
     <>
       <Select>

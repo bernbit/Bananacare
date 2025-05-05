@@ -1,7 +1,7 @@
 "use client";
 
 //React
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //Next
 import Image from "next/image";
 import Link from "next/link";
@@ -191,7 +191,10 @@ function LoginForm({ type = "full" }) {
           <hr className="flex-1" />
         </div>
 
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
+        <button
+          className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer"
+          onClick={() => signIn("google")}
+        >
           <Image
             src="/img/google.png"
             width={25}
@@ -201,7 +204,10 @@ function LoginForm({ type = "full" }) {
           <p className="font-medium">Continue with Google</p>
         </button>
 
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
+        <button
+          className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer"
+          onClick={() => signIn("facebook")}
+        >
           <Image
             src="/img/facebook.png"
             width={25}
@@ -211,7 +217,10 @@ function LoginForm({ type = "full" }) {
           <p className="font-medium">Continue with Facebook</p>
         </button>
 
-        <button className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer">
+        <button
+          className="border-primary hover:bg-primary/80 hover:text-light flex w-full items-center gap-2 rounded-md border p-2 hover:cursor-pointer"
+          onClick={() => signIn("github")}
+        >
           <Image
             src="/img/github.png"
             width={25}

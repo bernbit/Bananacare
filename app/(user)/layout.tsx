@@ -1,6 +1,7 @@
+"use client";
+
+import React, { useEffect } from "react";
 import Navbar from "@/components/user/Navbar";
-import React from "react";
-import { auth as nextAuth } from "@/lib/auth";
 
 async function UserLayout({
   about,
@@ -13,8 +14,12 @@ async function UserLayout({
   home: React.ReactNode;
   auth: React.ReactNode;
 }) {
-  // const session = await nextAuth();
-  // console.log("Main Session", session);
+  useEffect(() => {
+    if (window.location.hash === "#_=_") {
+      // Remove the fragment
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   return (
     <div className="mb-10 flex h-full flex-1 flex-col">

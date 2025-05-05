@@ -5,6 +5,8 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/lib/auth";
 
+import Head from "next/head";
+
 const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
@@ -16,7 +18,7 @@ const clashGrotesk = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "BananaCare",
+  title: "Sample",
   description: "Detect Banana Disease with Ease",
 };
 

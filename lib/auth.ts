@@ -1,6 +1,9 @@
 // Next Auth v5 or Auth.js
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import Facebook from "next-auth/providers/facebook";
 // Prisma
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma";
@@ -33,6 +36,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         return user;
       },
+    }),
+    Google({
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      allowDangerousEmailAccountLinking: true,
+    }),
+    GitHub({
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Facebook({
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   callbacks: {

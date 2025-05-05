@@ -1,10 +1,11 @@
 "use client";
 
 //React
-import React from "react";
+import React, { useState } from "react";
 //Next
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 //Shadcn
 import { Button } from "@/components/ui/button";
 import {
@@ -23,20 +24,38 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signUpSchema } from "@/lib/zod";
 //Actions
-import { handleLogin } from "@/lib/actions";
+import { handleSignup } from "@/lib/actions";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
-function SignupForm() {
+function SignupForm({ type = "full" }) {
+  const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    await handleLogin(values);
+    const result = await handleSignup(values);
+
+    if (result.ok) {
+      if (type === "modal") {
+        router.push("/login");
+      }
+      if (type === "full") {
+        window.location.href = "/login";
+      }
+    }
   }
 
   return (
@@ -108,11 +127,76 @@ function SignupForm() {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      className="focus-visible:ring-primary focus-within:border-primary border-dark placeholder: text-dark placeholder:text-dark/60 rounded-sm font-medium focus-visible:ring-1"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
+                    <div className="focus-within:ring-primary border-dark text-dark focus-within:border-primary flex gap-2 rounded-sm border px-3 font-medium focus-within:ring-1">
+                      <Input
+                        type={showPassword.password ? "text" : "password"}
+                        className="placeholder:text-dark/60 flex-1 border-none p-0 focus-visible:ring-0"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword((prev) => ({
+                            ...prev,
+                            password: !prev.password,
+                          }))
+                        }
+                        className="text-dark/60"
+                        tabIndex={-1}
+                      >
+                        {showPassword.password ? (
+                          <MdVisibilityOff size={20} className="text-dark/60" />
+                        ) : (
+                          <MdVisibility size={20} className="text-dark/60" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage className="text-red-600" />
+                </FormItem>
+              )}
+            />
+
+            {/*Confirm Password Input Field */}
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem className="text-dark flex flex-col gap-1">
+                  <FormLabel className="text-primary font-semibold">
+                    Confirm Password
+                  </FormLabel>
+                  <FormControl>
+                    <div className="focus-within:ring-primary border-dark text-dark focus-within:border-primary flex gap-2 rounded-sm border px-3 font-medium focus-within:ring-1">
+                      <Input
+                        type={
+                          showPassword.confirmPassword ? "text" : "password"
+                        }
+                        className="placeholder:text-dark/60 flex-1 border-none p-0 focus-visible:ring-0"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword((prev) => ({
+                            ...prev,
+                            confirmPassword: !prev.confirmPassword,
+                          }))
+                        }
+                        className="text-dark/60"
+                        tabIndex={-1}
+                      >
+                        {showPassword.confirmPassword ? (
+                          <MdVisibilityOff size={20} className="text-dark/60" />
+                        ) : (
+                          <MdVisibility size={20} className="text-dark/60" />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage className="text-red-600" />
                 </FormItem>
@@ -129,14 +213,25 @@ function SignupForm() {
         </Form>
 
         <p className="py-4 text-center text-sm">
-          Already have an account?
-          <Link
-            href={"/login"}
-            className="text-primary hover:cursor-pointer hover:opacity-70"
-          >
-            {" "}
-            Login Here
-          </Link>
+          Already have an account? <span> </span>
+          {type === "modal" && (
+            <Link
+              href={"/login"}
+              className="text-primary hover:cursor-pointer hover:opacity-70"
+            >
+              Login Here
+            </Link>
+          )}
+          {type === "full" && (
+            <button
+              className="text-primary hover:cursor-pointer hover:opacity-70"
+              onClick={() => {
+                window.location.href = "/login";
+              }}
+            >
+              Login Here
+            </button>
+          )}
         </p>
       </div>
 

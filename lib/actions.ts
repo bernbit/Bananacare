@@ -8,13 +8,17 @@ import { executeAction } from "./executeAction";
 export async function handleSignup(formData: any) {
   const validatedData = signUpSchema.parse(formData);
 
+  const { name, email, password } = validatedData;
+
   await prisma.user.create({
     data: {
-      name: validatedData.name,
-      email: validatedData.email,
-      password: validatedData.password,
+      name,
+      email,
+      password,
     },
   });
+
+  return { ok: true };
 }
 
 export async function handleLogin(formData: any) {

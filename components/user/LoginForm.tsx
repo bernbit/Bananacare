@@ -1,7 +1,7 @@
 "use client";
 
 //React
-import React from "react";
+import React, { useState } from "react";
 //Next
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +26,19 @@ import { loginSchema } from "@/lib/zod";
 //Actions
 import { handleLogin, handleLogout } from "@/lib/actions";
 
-function LoginForm() {
+import { signIn } from "next-auth/react";
+
+import { useRouter } from "next/navigation";
+
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+
+function LoginForm({ type = "full" }) {
+  const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -36,7 +48,25 @@ function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    await handleLogin(values);
+    setError(null);
+    setLoading(true);
+
+    const result = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      redirectTo: "/",
+    });
+
+    setLoading(false);
+
+    if (result?.error === "CredentialsSignin") {
+      setError("Invalid email or password."); // Show general error
+    } else {
+      console.log("Login successful:", result);
+      // Redirect or perform any other action after successful login
+      router.push("/");
+    }
   }
 
   return (
@@ -49,6 +79,12 @@ function LoginForm() {
         <p className="text-center text-sm">
           Sign in to continue your experience and access full features.
         </p>
+
+        {error && (
+          <p className="text-light mt-4 rounded-md bg-red-600 p-1 text-center">
+            Invalid Email or Password
+          </p>
+        )}
 
         <Form {...form}>
           <form
@@ -87,11 +123,27 @@ function LoginForm() {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      className="focus-visible:ring-primary focus-within:border-primary border-dark placeholder: text-dark placeholder:text-dark/60 rounded-sm font-medium focus-visible:ring-1"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
+                    <div className="focus-within:ring-primary border-dark text-dark focus-within:border-primary flex gap-2 rounded-sm border px-3 font-medium focus-within:ring-1">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        className="placeholder:text-dark/60 flex-1 border-none p-0 focus-visible:ring-0"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="text-dark/60"
+                        tabIndex={-1}
+                      >
+                        {showPassword ? (
+                          <MdVisibilityOff size={20} className="text-dark/60" />
+                        ) : (
+                          <MdVisibility size={20} className="text-dark/60" />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage className="text-red-600" />
                 </FormItem>
@@ -100,22 +152,34 @@ function LoginForm() {
 
             <Button
               type="submit"
+              disabled={loading}
               className="text-light text-base hover:cursor-pointer"
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </Form>
 
         <p className="py-4 text-center text-sm">
-          Doesn't have an account?
-          <Link
-            href={"/signup"}
-            className="text-primary hover:cursor-pointer hover:opacity-70"
-          >
-            {" "}
-            Create one
-          </Link>
+          Doesn't have an account? <span> </span>
+          {type === "modal" && (
+            <Link
+              href={"/signup"}
+              className="text-primary hover:cursor-pointer hover:opacity-70"
+            >
+              Create one
+            </Link>
+          )}
+          {type === "full" && (
+            <button
+              className="text-primary hover:cursor-pointer hover:opacity-70"
+              onClick={() => {
+                window.location.href = "/signup";
+              }}
+            >
+              Create one
+            </button>
+          )}
         </p>
       </div>
 

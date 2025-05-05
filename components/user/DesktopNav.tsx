@@ -1,20 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-import { handleLogout } from "@/lib/actions";
+import { useSession, signOut } from "next-auth/react";
 
 function DesktopNav() {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   const sectionIds = ["home", "disease", "about", "contact"];
   const [activeNav, setActiveNav] = useState<string>("home");
-  const activeNavRef = useRef(activeNav); // Keep track of current without re-rendering
-
+  const activeNavRef = useRef(activeNav);
   useEffect(() => {
     const handleScroll = () => {
       for (const id of sectionIds) {
@@ -49,8 +44,7 @@ function DesktopNav() {
   };
 
   const onLogout = async () => {
-    await handleLogout();
-    router.push("/");
+    await signOut();
   };
 
   return (
@@ -89,6 +83,20 @@ function DesktopNav() {
           Login
         </Link>
       )}
+
+      {/* <Link
+        href="/login"
+        className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
+      >
+        Login
+      </Link>
+
+      <button
+        className="text-light rounded-md bg-red-600 px-6 py-1 hover:opacity-70"
+        onClick={onLogout}
+      >
+        Logout
+      </button> */}
     </ul>
   );
 }

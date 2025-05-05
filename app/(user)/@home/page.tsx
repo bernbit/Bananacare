@@ -3,7 +3,11 @@ import Image from "next/image";
 
 //Client Components
 import { ScanForm } from "@/components/client/ScanForm";
+import NoticeModal from "@/components/modals/NoticeModal";
 import MoreInfoButton from "@/components/user/MoreInfoButton";
+import { auth } from "@/lib/auth";
+
+import Link from "next/link";
 
 import {
   AlertDialog,
@@ -17,9 +21,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { MdClose } from "react-icons/md";
+import { MdClose, MdLock } from "react-icons/md";
 
-function page() {
+async function page() {
+  const session = await auth();
+
   return (
     <section
       className="flex flex-1 scroll-mt-20 flex-col justify-between px-6 md:flex-row-reverse md:px-10 lg:px-28"
@@ -62,7 +68,9 @@ function page() {
               Scan Now
             </AlertDialogTrigger>
 
-            <AlertDialogContent className="bg-light h-[95vh] overflow-y-auto border-none md:min-w-[48vw] md:px-10">
+            <AlertDialogContent
+              className={`bg-light h-[95vh] border-none md:min-w-[48vw] md:px-10 ${session?.user ? "overflow-y-auto" : "overflow-hidden"}`}
+            >
               <AlertDialogHeader className="text-left">
                 <AlertDialogTitle className="flex items-center">
                   <p className="text-dark font-clash-grotesk flex-1 text-xl font-semibold">
@@ -75,6 +83,37 @@ function page() {
               </AlertDialogHeader>
 
               <ScanForm />
+
+              {!session?.user && (
+                <div className="absolute z-10 flex h-full w-full items-center justify-center overflow-hidden rounded-md bg-black/70 px-6 md:px-20">
+                  <div className="bg-light flex h-[70%] w-full flex-col items-center justify-center gap-4 rounded-md px-10">
+                    <div className="flex flex-col items-center justify-center p-4">
+                      <MdLock className="text-primary mx-1 text-4xl" />
+                      <p className="text-primary text-center text-lg font-bold">
+                        Login Required
+                      </p>
+                      <p className="text-dark text-center text-sm">
+                        Log in to continue and make the most of BananaCare's
+                        full functionality
+                      </p>
+                    </div>
+
+                    <div className="flex w-full flex-col gap-2">
+                      <Link href="/login" passHref>
+                        <AlertDialogCancel
+                          className="bg-primary text-light w-full rounded-md px-1 py-1 text-center hover:cursor-pointer hover:opacity-70"
+                          asChild
+                        >
+                          <span>Login Here</span>
+                        </AlertDialogCancel>
+                      </Link>
+                      <AlertDialogCancel className="bg-dark text-light w-full rounded-md px-1 py-1 hover:cursor-pointer hover:opacity-70">
+                        Close
+                      </AlertDialogCancel>
+                    </div>
+                  </div>
+                </div>
+              )}
             </AlertDialogContent>
           </AlertDialog>
 

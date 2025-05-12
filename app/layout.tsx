@@ -18,7 +18,7 @@ const clashGrotesk = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Sample",
+  title: "BananaCare",
   description: "Detect Banana Disease with Ease",
 };
 

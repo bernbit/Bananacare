@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Navbar from "@/components/user/Navbar";
 
-async function UserLayout({
+function UserLayout({
   about,
   disease,
   home,

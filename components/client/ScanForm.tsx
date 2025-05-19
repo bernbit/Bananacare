@@ -40,11 +40,14 @@ import {
 //Custom Component
 import LoaderModal from "../modals/LoaderModal";
 import ResultModal from "../modals/ResultModal";
+import NotBananaModal from "../modals/NotBananaModal";
 
 export function ScanForm() {
   //* useState
   const [showResult, setShowResult] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
+  const [showNotBanana, setShowNotBanana] = useState<boolean>(false);
+  const [isScanning, setIsScanning] = useState(false);
   const [model, setModel] = useState<tf.LayersModel | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<number>(-1);
@@ -76,6 +79,7 @@ export function ScanForm() {
             clearInterval(interval);
             setShowResult(true);
             setShowLoader(false); // optional: stop loader once done
+            setIsScanning(false);
             return prev;
           }
         });
@@ -100,10 +104,22 @@ export function ScanForm() {
   const onSubmit = async (values: z.infer<typeof scanSchema>) => {
     if (!model) return;
 
-    setShowLoader(true);
+    setIsScanning(true);
+
     const bananaImage = values.file[0];
     const tensor = await preprocessImage(bananaImage);
     const results = await makePrediction(model, tensor);
+
+    // Check if top result is 'not'
+    if (results.length > 0 && results[0].id === "not") {
+      setShowNotBanana(true);
+      setShowLoader(false);
+      setRankedResults([]);
+      setIsScanning(false);
+      return;
+    }
+
+    setShowLoader(true);
     setRankedResults(results);
   };
 
@@ -151,8 +167,8 @@ export function ScanForm() {
 
               return (
                 <FormItem>
-                  <FormLabel className="text-primary font-semibold">
-                    Upload Image
+                  <FormLabel className="text-primary flex flex-col items-start font-semibold">
+                    gfddf
                   </FormLabel>
 
                   {!previewImg ? (
@@ -337,8 +353,9 @@ export function ScanForm() {
           <Button
             type="submit"
             className="text-light text-base hover:cursor-pointer"
+            disabled={isScanning}
           >
-            Scan
+            {isScanning ? "Scanning..." : "Scan"}
           </Button>
         </form>
       </Form>
@@ -359,6 +376,11 @@ export function ScanForm() {
         rankedResults={rankedResults}
         resetForm={resetForm}
         previewImg={previewImg}
+      />
+
+      <NotBananaModal
+        open={showNotBanana}
+        onClose={() => setShowNotBanana(false)}
       />
     </>
   );

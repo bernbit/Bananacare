@@ -65,24 +65,26 @@ const ResultModal: React.FC<ResultModalProps> = ({
             {/* Result */}
             <div className="flex flex-col gap-1 rounded-md">
               <p className="text-dark rounded-md text-sm font-bold">Result</p>
-              {rankedResults.map((result, index) => (
-                <div
-                  className="text-light flex items-center justify-center gap-2 rounded-md px-2 py-2"
-                  style={{
-                    backgroundColor: result?.color,
-                    color: result?.textColor,
-                  }}
-                  key={index}
-                >
-                  <p className="bg-dark/40 text-light border-light/20 basis-2/12 rounded-sm border px-2 py-1.5 text-center text-sm">
-                    {`${result?.percentage}%`}
-                  </p>
-                  <div className="flex flex-1 flex-col justify-center gap-0.5">
-                    <Progress value={result?.percentage} />
-                    <p className="text-sm">{result?.name}</p>
+              {rankedResults
+                .filter((item) => item.name.toLowerCase() !== "not banana")
+                .map((result, index) => (
+                  <div
+                    className="text-light flex items-center justify-center gap-2 rounded-md px-2 py-2"
+                    style={{
+                      backgroundColor: result?.color,
+                      color: result?.textColor,
+                    }}
+                    key={index}
+                  >
+                    <p className="bg-dark/40 text-light border-light/20 basis-2/12 rounded-sm border px-2 py-1.5 text-center text-sm">
+                      {`${result?.percentage}%`}
+                    </p>
+                    <div className="flex flex-1 flex-col justify-center gap-0.5">
+                      <Progress value={result?.percentage} />
+                      <p className="text-sm">{result?.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             {/* Recommendation */}

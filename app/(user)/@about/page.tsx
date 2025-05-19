@@ -17,7 +17,7 @@ function page() {
       <div className="flex flex-col gap-4 md:mt-14 md:flex-row">
         <div className="mt-10 flex-1 md:mt-0">
           <div
-            className={`border-extra bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
+            className={`border-dark/40 bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
           >
             <div className="bg-light absolute -top-10 left-1/2 h-24 w-24 -translate-x-1/2 transform overflow-hidden rounded-full">
               <Image
@@ -43,7 +43,7 @@ function page() {
 
         <div className="mt-10 flex-1 md:mt-0">
           <div
-            className={`border-extra bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
+            className={`border-dark/40 bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
           >
             <div className="bg-light absolute -top-10 left-1/2 h-24 w-24 -translate-x-1/2 transform overflow-hidden rounded-full">
               <Image
@@ -68,7 +68,7 @@ function page() {
 
         <div className="mt-10 flex-1 md:mt-0">
           <div
-            className={`border-extra bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
+            className={`border-dark/40 bg- shadow-custom dark:bg-dark-tertiary bg-primary/20 relative min-h-full basis-1/2 rounded-md border dark:border-none dark:shadow-none`}
           >
             <div className="bg-light absolute -top-10 left-1/2 h-24 w-24 -translate-x-1/2 transform overflow-hidden rounded-full">
               <Image

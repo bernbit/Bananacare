@@ -42,11 +42,14 @@ export const makePrediction = async (
 ): Promise<BananaDiseaseType[]> => {
   const prediction = model.predict(tensor) as tf.Tensor;
   const predictionArray = Array.from(await prediction.data());
+
+  console.log(predictionArray);
+
   return bananaDiseases
     .map((disease, index) => ({
       ...disease,
       percentage: parseFloat((predictionArray[index] * 100).toFixed(2)),
     }))
-    .filter((disease) => disease.id !== "not" && disease.id !== "healthy") // Exclude unwanted
+    .filter((disease) => disease.id !== "healthy") // Exclude unwanted
     .sort((a, b) => b.percentage - a.percentage); // Sort descending
 };

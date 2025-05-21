@@ -32,7 +32,12 @@ export const columns: ColumnDef<Payment>[] = [
   },
 
   {
-    accessorKey: "phone",
+    accessorKey: "phoneNumber",
     header: "Phone",
+  },
+
+  {
+    accessorKey: "result",
+    header: "Result",
   },
 ];

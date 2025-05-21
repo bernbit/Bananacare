@@ -45,11 +45,13 @@ export const makePrediction = async (
 
   console.log(predictionArray);
 
-  return bananaDiseases
-    .map((disease, index) => ({
-      ...disease,
-      percentage: parseFloat((predictionArray[index] * 100).toFixed(2)),
-    }))
-    .filter((disease) => disease.id !== "healthy") // Exclude unwanted
-    .sort((a, b) => b.percentage - a.percentage); // Sort descending
+  return (
+    bananaDiseases
+      .map((disease, index) => ({
+        ...disease,
+        percentage: parseFloat((predictionArray[index] * 100).toFixed(2)),
+      }))
+      // .filter((disease) => disease.id !== "healthy") // Exclude unwanted
+      .sort((a, b) => b.percentage - a.percentage)
+  ); // Sort descending
 };

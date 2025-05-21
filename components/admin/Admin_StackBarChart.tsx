@@ -19,133 +19,133 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  {
-    key: "Alacadesma",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+// const chartData = [
+//   {
+//     key: "Alacadesma",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Bato",
-    "black-sigatoka": 23,
-    cordana: 45,
-    "bract-mosaic-virus": 120,
-    moko: 43,
-    panama: 23,
-    weevil: 90,
-  },
+//   {
+//     key: "Bato",
+//     "black-sigatoka": 23,
+//     cordana: 45,
+//     "bract-mosaic-virus": 120,
+//     moko: 43,
+//     panama: 23,
+//     weevil: 90,
+//   },
 
-  {
-    key: "Conrazon",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Conrazon",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Malo",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
-  {
-    key: "Manihala",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
-  {
-    key: "Pag-asa",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Malo",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
+//   {
+//     key: "Manihala",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
+//   {
+//     key: "Pag-asa",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Poblacion",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Poblacion",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Proper Bansud",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Proper Bansud",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Rosacara",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
-  {
-    key: "Salcedo",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
-  {
-    key: "Sumagui",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Rosacara",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
+//   {
+//     key: "Salcedo",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
+//   {
+//     key: "Sumagui",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Proper Tiguisan",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
+//   {
+//     key: "Proper Tiguisan",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
 
-  {
-    key: "Villa Pag-asa",
-    "black-sigatoka": 186,
-    cordana: 80,
-    "bract-mosaic-virus": 90,
-    moko: 10,
-    panama: 40,
-    weevil: 40,
-  },
-];
+//   {
+//     key: "Villa Pag-asa",
+//     "black-sigatoka": 186,
+//     cordana: 80,
+//     "bract-mosaic-virus": 90,
+//     moko: 10,
+//     panama: 40,
+//     weevil: 40,
+//   },
+// ];
 
 const chartConfig = {
   key: {
@@ -169,9 +169,12 @@ const chartConfig = {
   weevil: {
     label: "Weevil",
   },
+  healthy: {
+    label: "Healthy",
+  },
 } satisfies ChartConfig;
 
-export default function Admin_StackBarChart() {
+export default function Admin_StackBarChart({ chartData }) {
   return (
     <Card className="bg-light flex-1 rounded-md border-none shadow-none">
       <CardHeader>
@@ -243,6 +246,13 @@ export default function Admin_StackBarChart() {
               dataKey="bract-mosaic-virus"
               stackId="a"
               fill="var(--color-bmv)"
+              radius={[4, 4, 0, 0]}
+            />
+
+            <Bar
+              dataKey="healthy"
+              stackId="a"
+              fill="var(--color-primary)"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>

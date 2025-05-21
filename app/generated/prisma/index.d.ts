@@ -38,6 +38,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  * 
  */
 export type Authenticator = $Result.DefaultSelection<Prisma.$AuthenticatorPayload>
+/**
+ * Model ScanResult
+ * 
+ */
+export type ScanResult = $Result.DefaultSelection<Prisma.$ScanResultPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -213,6 +218,16 @@ export class PrismaClient<
     * ```
     */
   get authenticator(): Prisma.AuthenticatorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scanResult`: Exposes CRUD operations for the **ScanResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScanResults
+    * const scanResults = await prisma.scanResult.findMany()
+    * ```
+    */
+  get scanResult(): Prisma.ScanResultDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -271,8 +286,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -657,7 +672,8 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
-    Authenticator: 'Authenticator'
+    Authenticator: 'Authenticator',
+    ScanResult: 'ScanResult'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -676,7 +692,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "authenticator"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "authenticator" | "scanResult"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1050,6 +1066,80 @@ export namespace Prisma {
           }
         }
       }
+      ScanResult: {
+        payload: Prisma.$ScanResultPayload<ExtArgs>
+        fields: Prisma.ScanResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScanResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScanResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          findFirst: {
+            args: Prisma.ScanResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScanResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          findMany: {
+            args: Prisma.ScanResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>[]
+          }
+          create: {
+            args: Prisma.ScanResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          createMany: {
+            args: Prisma.ScanResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScanResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>[]
+          }
+          delete: {
+            args: Prisma.ScanResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          update: {
+            args: Prisma.ScanResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScanResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScanResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScanResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScanResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanResultPayload>
+          }
+          aggregate: {
+            args: Prisma.ScanResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScanResult>
+          }
+          groupBy: {
+            args: Prisma.ScanResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScanResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScanResultCountArgs<ExtArgs>
+            result: $Utils.Optional<ScanResultCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1139,6 +1229,7 @@ export namespace Prisma {
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
     authenticator?: AuthenticatorOmit
+    scanResult?: ScanResultOmit
   }
 
   /* Types for Logging */
@@ -6801,6 +6892,1087 @@ export namespace Prisma {
 
 
   /**
+   * Model ScanResult
+   */
+
+  export type AggregateScanResult = {
+    _count: ScanResultCountAggregateOutputType | null
+    _avg: ScanResultAvgAggregateOutputType | null
+    _sum: ScanResultSumAggregateOutputType | null
+    _min: ScanResultMinAggregateOutputType | null
+    _max: ScanResultMaxAggregateOutputType | null
+  }
+
+  export type ScanResultAvgAggregateOutputType = {
+    age: number | null
+  }
+
+  export type ScanResultSumAggregateOutputType = {
+    age: number | null
+  }
+
+  export type ScanResultMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    address: string | null
+    age: number | null
+    phoneNumber: string | null
+    result: string | null
+    imgUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type ScanResultMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    address: string | null
+    age: number | null
+    phoneNumber: string | null
+    result: string | null
+    imgUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type ScanResultCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    address: number
+    age: number
+    phoneNumber: number
+    result: number
+    imgUrl: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ScanResultAvgAggregateInputType = {
+    age?: true
+  }
+
+  export type ScanResultSumAggregateInputType = {
+    age?: true
+  }
+
+  export type ScanResultMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    address?: true
+    age?: true
+    phoneNumber?: true
+    result?: true
+    imgUrl?: true
+    createdAt?: true
+  }
+
+  export type ScanResultMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    address?: true
+    age?: true
+    phoneNumber?: true
+    result?: true
+    imgUrl?: true
+    createdAt?: true
+  }
+
+  export type ScanResultCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    address?: true
+    age?: true
+    phoneNumber?: true
+    result?: true
+    imgUrl?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ScanResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanResult to aggregate.
+     */
+    where?: ScanResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanResults to fetch.
+     */
+    orderBy?: ScanResultOrderByWithRelationInput | ScanResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScanResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScanResults
+    **/
+    _count?: true | ScanResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScanResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScanResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScanResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScanResultMaxAggregateInputType
+  }
+
+  export type GetScanResultAggregateType<T extends ScanResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateScanResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScanResult[P]>
+      : GetScalarType<T[P], AggregateScanResult[P]>
+  }
+
+
+
+
+  export type ScanResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScanResultWhereInput
+    orderBy?: ScanResultOrderByWithAggregationInput | ScanResultOrderByWithAggregationInput[]
+    by: ScanResultScalarFieldEnum[] | ScanResultScalarFieldEnum
+    having?: ScanResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScanResultCountAggregateInputType | true
+    _avg?: ScanResultAvgAggregateInputType
+    _sum?: ScanResultSumAggregateInputType
+    _min?: ScanResultMinAggregateInputType
+    _max?: ScanResultMaxAggregateInputType
+  }
+
+  export type ScanResultGroupByOutputType = {
+    id: string
+    name: string
+    email: string
+    address: string
+    age: number
+    phoneNumber: string
+    result: string
+    imgUrl: string
+    createdAt: Date
+    _count: ScanResultCountAggregateOutputType | null
+    _avg: ScanResultAvgAggregateOutputType | null
+    _sum: ScanResultSumAggregateOutputType | null
+    _min: ScanResultMinAggregateOutputType | null
+    _max: ScanResultMaxAggregateOutputType | null
+  }
+
+  type GetScanResultGroupByPayload<T extends ScanResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScanResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScanResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScanResultGroupByOutputType[P]>
+            : GetScalarType<T[P], ScanResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScanResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    address?: boolean
+    age?: boolean
+    phoneNumber?: boolean
+    result?: boolean
+    imgUrl?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["scanResult"]>
+
+  export type ScanResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    address?: boolean
+    age?: boolean
+    phoneNumber?: boolean
+    result?: boolean
+    imgUrl?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["scanResult"]>
+
+  export type ScanResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    address?: boolean
+    age?: boolean
+    phoneNumber?: boolean
+    result?: boolean
+    imgUrl?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["scanResult"]>
+
+  export type ScanResultSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    address?: boolean
+    age?: boolean
+    phoneNumber?: boolean
+    result?: boolean
+    imgUrl?: boolean
+    createdAt?: boolean
+  }
+
+  export type ScanResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "address" | "age" | "phoneNumber" | "result" | "imgUrl" | "createdAt", ExtArgs["result"]["scanResult"]>
+
+  export type $ScanResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScanResult"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      email: string
+      address: string
+      age: number
+      phoneNumber: string
+      result: string
+      imgUrl: string
+      createdAt: Date
+    }, ExtArgs["result"]["scanResult"]>
+    composites: {}
+  }
+
+  type ScanResultGetPayload<S extends boolean | null | undefined | ScanResultDefaultArgs> = $Result.GetResult<Prisma.$ScanResultPayload, S>
+
+  type ScanResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScanResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScanResultCountAggregateInputType | true
+    }
+
+  export interface ScanResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScanResult'], meta: { name: 'ScanResult' } }
+    /**
+     * Find zero or one ScanResult that matches the filter.
+     * @param {ScanResultFindUniqueArgs} args - Arguments to find a ScanResult
+     * @example
+     * // Get one ScanResult
+     * const scanResult = await prisma.scanResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScanResultFindUniqueArgs>(args: SelectSubset<T, ScanResultFindUniqueArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScanResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScanResultFindUniqueOrThrowArgs} args - Arguments to find a ScanResult
+     * @example
+     * // Get one ScanResult
+     * const scanResult = await prisma.scanResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScanResultFindUniqueOrThrowArgs>(args: SelectSubset<T, ScanResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultFindFirstArgs} args - Arguments to find a ScanResult
+     * @example
+     * // Get one ScanResult
+     * const scanResult = await prisma.scanResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScanResultFindFirstArgs>(args?: SelectSubset<T, ScanResultFindFirstArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultFindFirstOrThrowArgs} args - Arguments to find a ScanResult
+     * @example
+     * // Get one ScanResult
+     * const scanResult = await prisma.scanResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScanResultFindFirstOrThrowArgs>(args?: SelectSubset<T, ScanResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScanResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScanResults
+     * const scanResults = await prisma.scanResult.findMany()
+     * 
+     * // Get first 10 ScanResults
+     * const scanResults = await prisma.scanResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scanResultWithIdOnly = await prisma.scanResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScanResultFindManyArgs>(args?: SelectSubset<T, ScanResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScanResult.
+     * @param {ScanResultCreateArgs} args - Arguments to create a ScanResult.
+     * @example
+     * // Create one ScanResult
+     * const ScanResult = await prisma.scanResult.create({
+     *   data: {
+     *     // ... data to create a ScanResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScanResultCreateArgs>(args: SelectSubset<T, ScanResultCreateArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScanResults.
+     * @param {ScanResultCreateManyArgs} args - Arguments to create many ScanResults.
+     * @example
+     * // Create many ScanResults
+     * const scanResult = await prisma.scanResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScanResultCreateManyArgs>(args?: SelectSubset<T, ScanResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScanResults and returns the data saved in the database.
+     * @param {ScanResultCreateManyAndReturnArgs} args - Arguments to create many ScanResults.
+     * @example
+     * // Create many ScanResults
+     * const scanResult = await prisma.scanResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScanResults and only return the `id`
+     * const scanResultWithIdOnly = await prisma.scanResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScanResultCreateManyAndReturnArgs>(args?: SelectSubset<T, ScanResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScanResult.
+     * @param {ScanResultDeleteArgs} args - Arguments to delete one ScanResult.
+     * @example
+     * // Delete one ScanResult
+     * const ScanResult = await prisma.scanResult.delete({
+     *   where: {
+     *     // ... filter to delete one ScanResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScanResultDeleteArgs>(args: SelectSubset<T, ScanResultDeleteArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScanResult.
+     * @param {ScanResultUpdateArgs} args - Arguments to update one ScanResult.
+     * @example
+     * // Update one ScanResult
+     * const scanResult = await prisma.scanResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScanResultUpdateArgs>(args: SelectSubset<T, ScanResultUpdateArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScanResults.
+     * @param {ScanResultDeleteManyArgs} args - Arguments to filter ScanResults to delete.
+     * @example
+     * // Delete a few ScanResults
+     * const { count } = await prisma.scanResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScanResultDeleteManyArgs>(args?: SelectSubset<T, ScanResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScanResults
+     * const scanResult = await prisma.scanResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScanResultUpdateManyArgs>(args: SelectSubset<T, ScanResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanResults and returns the data updated in the database.
+     * @param {ScanResultUpdateManyAndReturnArgs} args - Arguments to update many ScanResults.
+     * @example
+     * // Update many ScanResults
+     * const scanResult = await prisma.scanResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScanResults and only return the `id`
+     * const scanResultWithIdOnly = await prisma.scanResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScanResultUpdateManyAndReturnArgs>(args: SelectSubset<T, ScanResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScanResult.
+     * @param {ScanResultUpsertArgs} args - Arguments to update or create a ScanResult.
+     * @example
+     * // Update or create a ScanResult
+     * const scanResult = await prisma.scanResult.upsert({
+     *   create: {
+     *     // ... data to create a ScanResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScanResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScanResultUpsertArgs>(args: SelectSubset<T, ScanResultUpsertArgs<ExtArgs>>): Prisma__ScanResultClient<$Result.GetResult<Prisma.$ScanResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScanResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultCountArgs} args - Arguments to filter ScanResults to count.
+     * @example
+     * // Count the number of ScanResults
+     * const count = await prisma.scanResult.count({
+     *   where: {
+     *     // ... the filter for the ScanResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScanResultCountArgs>(
+      args?: Subset<T, ScanResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScanResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScanResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScanResultAggregateArgs>(args: Subset<T, ScanResultAggregateArgs>): Prisma.PrismaPromise<GetScanResultAggregateType<T>>
+
+    /**
+     * Group by ScanResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScanResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScanResultGroupByArgs['orderBy'] }
+        : { orderBy?: ScanResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScanResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScanResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScanResult model
+   */
+  readonly fields: ScanResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScanResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScanResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScanResult model
+   */
+  interface ScanResultFieldRefs {
+    readonly id: FieldRef<"ScanResult", 'String'>
+    readonly name: FieldRef<"ScanResult", 'String'>
+    readonly email: FieldRef<"ScanResult", 'String'>
+    readonly address: FieldRef<"ScanResult", 'String'>
+    readonly age: FieldRef<"ScanResult", 'Int'>
+    readonly phoneNumber: FieldRef<"ScanResult", 'String'>
+    readonly result: FieldRef<"ScanResult", 'String'>
+    readonly imgUrl: FieldRef<"ScanResult", 'String'>
+    readonly createdAt: FieldRef<"ScanResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScanResult findUnique
+   */
+  export type ScanResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ScanResult to fetch.
+     */
+    where: ScanResultWhereUniqueInput
+  }
+
+  /**
+   * ScanResult findUniqueOrThrow
+   */
+  export type ScanResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ScanResult to fetch.
+     */
+    where: ScanResultWhereUniqueInput
+  }
+
+  /**
+   * ScanResult findFirst
+   */
+  export type ScanResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ScanResult to fetch.
+     */
+    where?: ScanResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanResults to fetch.
+     */
+    orderBy?: ScanResultOrderByWithRelationInput | ScanResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanResults.
+     */
+    cursor?: ScanResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanResults.
+     */
+    distinct?: ScanResultScalarFieldEnum | ScanResultScalarFieldEnum[]
+  }
+
+  /**
+   * ScanResult findFirstOrThrow
+   */
+  export type ScanResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ScanResult to fetch.
+     */
+    where?: ScanResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanResults to fetch.
+     */
+    orderBy?: ScanResultOrderByWithRelationInput | ScanResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanResults.
+     */
+    cursor?: ScanResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanResults.
+     */
+    distinct?: ScanResultScalarFieldEnum | ScanResultScalarFieldEnum[]
+  }
+
+  /**
+   * ScanResult findMany
+   */
+  export type ScanResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ScanResults to fetch.
+     */
+    where?: ScanResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanResults to fetch.
+     */
+    orderBy?: ScanResultOrderByWithRelationInput | ScanResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScanResults.
+     */
+    cursor?: ScanResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanResults.
+     */
+    skip?: number
+    distinct?: ScanResultScalarFieldEnum | ScanResultScalarFieldEnum[]
+  }
+
+  /**
+   * ScanResult create
+   */
+  export type ScanResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ScanResult.
+     */
+    data: XOR<ScanResultCreateInput, ScanResultUncheckedCreateInput>
+  }
+
+  /**
+   * ScanResult createMany
+   */
+  export type ScanResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScanResults.
+     */
+    data: ScanResultCreateManyInput | ScanResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScanResult createManyAndReturn
+   */
+  export type ScanResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScanResults.
+     */
+    data: ScanResultCreateManyInput | ScanResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScanResult update
+   */
+  export type ScanResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ScanResult.
+     */
+    data: XOR<ScanResultUpdateInput, ScanResultUncheckedUpdateInput>
+    /**
+     * Choose, which ScanResult to update.
+     */
+    where: ScanResultWhereUniqueInput
+  }
+
+  /**
+   * ScanResult updateMany
+   */
+  export type ScanResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScanResults.
+     */
+    data: XOR<ScanResultUpdateManyMutationInput, ScanResultUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanResults to update
+     */
+    where?: ScanResultWhereInput
+    /**
+     * Limit how many ScanResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanResult updateManyAndReturn
+   */
+  export type ScanResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * The data used to update ScanResults.
+     */
+    data: XOR<ScanResultUpdateManyMutationInput, ScanResultUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanResults to update
+     */
+    where?: ScanResultWhereInput
+    /**
+     * Limit how many ScanResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanResult upsert
+   */
+  export type ScanResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ScanResult to update in case it exists.
+     */
+    where: ScanResultWhereUniqueInput
+    /**
+     * In case the ScanResult found by the `where` argument doesn't exist, create a new ScanResult with this data.
+     */
+    create: XOR<ScanResultCreateInput, ScanResultUncheckedCreateInput>
+    /**
+     * In case the ScanResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScanResultUpdateInput, ScanResultUncheckedUpdateInput>
+  }
+
+  /**
+   * ScanResult delete
+   */
+  export type ScanResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+    /**
+     * Filter which ScanResult to delete.
+     */
+    where: ScanResultWhereUniqueInput
+  }
+
+  /**
+   * ScanResult deleteMany
+   */
+  export type ScanResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanResults to delete
+     */
+    where?: ScanResultWhereInput
+    /**
+     * Limit how many ScanResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanResult without action
+   */
+  export type ScanResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanResult
+     */
+    select?: ScanResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanResult
+     */
+    omit?: ScanResultOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6879,6 +8051,21 @@ export namespace Prisma {
   };
 
   export type AuthenticatorScalarFieldEnum = (typeof AuthenticatorScalarFieldEnum)[keyof typeof AuthenticatorScalarFieldEnum]
+
+
+  export const ScanResultScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    address: 'address',
+    age: 'age',
+    phoneNumber: 'phoneNumber',
+    result: 'result',
+    imgUrl: 'imgUrl',
+    createdAt: 'createdAt'
+  };
+
+  export type ScanResultScalarFieldEnum = (typeof ScanResultScalarFieldEnum)[keyof typeof ScanResultScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7321,6 +8508,80 @@ export namespace Prisma {
     transports?: StringNullableWithAggregatesFilter<"Authenticator"> | string | null
   }
 
+  export type ScanResultWhereInput = {
+    AND?: ScanResultWhereInput | ScanResultWhereInput[]
+    OR?: ScanResultWhereInput[]
+    NOT?: ScanResultWhereInput | ScanResultWhereInput[]
+    id?: StringFilter<"ScanResult"> | string
+    name?: StringFilter<"ScanResult"> | string
+    email?: StringFilter<"ScanResult"> | string
+    address?: StringFilter<"ScanResult"> | string
+    age?: IntFilter<"ScanResult"> | number
+    phoneNumber?: StringFilter<"ScanResult"> | string
+    result?: StringFilter<"ScanResult"> | string
+    imgUrl?: StringFilter<"ScanResult"> | string
+    createdAt?: DateTimeFilter<"ScanResult"> | Date | string
+  }
+
+  export type ScanResultOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    age?: SortOrder
+    phoneNumber?: SortOrder
+    result?: SortOrder
+    imgUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScanResultWhereInput | ScanResultWhereInput[]
+    OR?: ScanResultWhereInput[]
+    NOT?: ScanResultWhereInput | ScanResultWhereInput[]
+    name?: StringFilter<"ScanResult"> | string
+    email?: StringFilter<"ScanResult"> | string
+    address?: StringFilter<"ScanResult"> | string
+    age?: IntFilter<"ScanResult"> | number
+    phoneNumber?: StringFilter<"ScanResult"> | string
+    result?: StringFilter<"ScanResult"> | string
+    imgUrl?: StringFilter<"ScanResult"> | string
+    createdAt?: DateTimeFilter<"ScanResult"> | Date | string
+  }, "id">
+
+  export type ScanResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    age?: SortOrder
+    phoneNumber?: SortOrder
+    result?: SortOrder
+    imgUrl?: SortOrder
+    createdAt?: SortOrder
+    _count?: ScanResultCountOrderByAggregateInput
+    _avg?: ScanResultAvgOrderByAggregateInput
+    _max?: ScanResultMaxOrderByAggregateInput
+    _min?: ScanResultMinOrderByAggregateInput
+    _sum?: ScanResultSumOrderByAggregateInput
+  }
+
+  export type ScanResultScalarWhereWithAggregatesInput = {
+    AND?: ScanResultScalarWhereWithAggregatesInput | ScanResultScalarWhereWithAggregatesInput[]
+    OR?: ScanResultScalarWhereWithAggregatesInput[]
+    NOT?: ScanResultScalarWhereWithAggregatesInput | ScanResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScanResult"> | string
+    name?: StringWithAggregatesFilter<"ScanResult"> | string
+    email?: StringWithAggregatesFilter<"ScanResult"> | string
+    address?: StringWithAggregatesFilter<"ScanResult"> | string
+    age?: IntWithAggregatesFilter<"ScanResult"> | number
+    phoneNumber?: StringWithAggregatesFilter<"ScanResult"> | string
+    result?: StringWithAggregatesFilter<"ScanResult"> | string
+    imgUrl?: StringWithAggregatesFilter<"ScanResult"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ScanResult"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -7692,6 +8953,90 @@ export namespace Prisma {
     credentialDeviceType?: StringFieldUpdateOperationsInput | string
     credentialBackedUp?: BoolFieldUpdateOperationsInput | boolean
     transports?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScanResultCreateInput = {
+    id?: string
+    name: string
+    email: string
+    address: string
+    age: number
+    phoneNumber: string
+    result: string
+    imgUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ScanResultUncheckedCreateInput = {
+    id?: string
+    name: string
+    email: string
+    address: string
+    age: number
+    phoneNumber: string
+    result: string
+    imgUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ScanResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanResultCreateManyInput = {
+    id?: string
+    name: string
+    email: string
+    address: string
+    age: number
+    phoneNumber: string
+    result: string
+    imgUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ScanResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8102,6 +9447,50 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type ScanResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    age?: SortOrder
+    phoneNumber?: SortOrder
+    result?: SortOrder
+    imgUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanResultAvgOrderByAggregateInput = {
+    age?: SortOrder
+  }
+
+  export type ScanResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    age?: SortOrder
+    phoneNumber?: SortOrder
+    result?: SortOrder
+    imgUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    age?: SortOrder
+    phoneNumber?: SortOrder
+    result?: SortOrder
+    imgUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanResultSumOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {

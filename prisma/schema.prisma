@@ -84,3 +84,15 @@ model Authenticator {
 
   @@id([userId, credentialID])
 }
+
+model ScanResult {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  address     String
+  age         Int
+  phoneNumber String
+  result      String
+  imgUrl      String
+  createdAt   DateTime @default(now())
+}

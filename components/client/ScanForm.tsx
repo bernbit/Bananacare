@@ -111,7 +111,7 @@ export function ScanForm() {
     const results = await makePrediction(model, tensor);
 
     // Check if top result is 'not'
-    if (results.length > 0 && results[0].id === "not") {
+    if (results.length > 0 && results[0].id === "not-banana") {
       setShowNotBanana(true);
       setShowLoader(false);
       setRankedResults([]);
@@ -121,6 +121,51 @@ export function ScanForm() {
 
     setShowLoader(true);
     setRankedResults(results);
+
+    const formData = new FormData();
+    formData.append("file", values.file[0]);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const imgData = await res.json();
+    const imgUrl = imgData.publicUrl;
+
+    const payload = {
+      name: values.name,
+      email: values.email,
+      address: values.address,
+      age: Number(values.age),
+      phoneNumber: values.phoneNumber,
+      result: results[0].id,
+      imgUrl,
+    };
+
+    const save = await fetch("/api/scan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!save.ok) {
+      console.log("Something went wrong");
+    } else {
+      console.log("Data saved successfully!");
+    }
+
+    //   if (!res.ok) {
+    //     console.log("Something went wrong");
+    //   } else {
+    //     // handle success
+    //     console.log("File uploaded successfully!");
+    //   }
+    // } catch (error) {
+    //   console.log("Something went wrong", error);
+    // }
   };
 
   const resetForm = () => {
@@ -168,7 +213,11 @@ export function ScanForm() {
               return (
                 <FormItem>
                   <FormLabel className="text-primary flex flex-col items-start font-semibold">
-                    gfddf
+                    <p>Upload Image</p>
+                    <p className="text-danger pt-1">
+                      Note: Only images containing bananas are allowed. Please
+                      check your file before uploading.
+                    </p>
                   </FormLabel>
 
                   {!previewImg ? (

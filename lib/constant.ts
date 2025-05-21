@@ -57,6 +57,8 @@ export const bananaDiseases: BananaDiseaseType[] = [
   {
     id: "healthy",
     name: "Banana Healthy",
+    color: "#feba17",
+    textColor: "#26333a",
     recommendations: [
       "Continue good agricultural practices.",
       "Use disease-free planting materials.",
@@ -91,7 +93,7 @@ export const bananaDiseases: BananaDiseaseType[] = [
     ],
   },
   {
-    id: "not",
+    id: "not-banana",
     name: "Not Banana",
     recommendations: [],
   },

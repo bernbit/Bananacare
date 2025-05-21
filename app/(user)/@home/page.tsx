@@ -3,7 +3,6 @@ import Image from "next/image";
 
 //Client Components
 import { ScanForm } from "@/components/client/ScanForm";
-import NoticeModal from "@/components/modals/NoticeModal";
 import MoreInfoButton from "@/components/user/MoreInfoButton";
 import { auth } from "@/lib/auth";
 

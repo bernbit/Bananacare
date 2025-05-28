@@ -110,7 +110,7 @@ export function ScanForm() {
     const tensor = await preprocessImage(bananaImage);
     const results = await makePrediction(model, tensor);
 
-    // Check if top result is 'not'
+    // Check if top result is 'not-banana'
     if (results.length > 0 && results[0].id === "not-banana") {
       setShowNotBanana(true);
       setShowLoader(false);

@@ -95,7 +95,11 @@ export function Admin_Sidebar() {
                       asChild
                       className={`${isActive ? "bg-primary text-light" : "text-dark"} hover:bg-primary hover:text-light rounded-md py-[21px] font-medium`}
                     >
-                      <Link href={item.url} className="text-4xl">
+                      <Link
+                        href={item.url}
+                        prefetch={true}
+                        className="text-4xl"
+                      >
                         <item.icon className="text-3xl" />
                         <span>{item.title}</span>
                       </Link>

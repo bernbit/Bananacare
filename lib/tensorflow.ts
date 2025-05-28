@@ -43,8 +43,6 @@ export const makePrediction = async (
   const prediction = model.predict(tensor) as tf.Tensor;
   const predictionArray = Array.from(await prediction.data());
 
-  console.log(predictionArray);
-
   return (
     bananaDiseases
       .map((disease, index) => ({

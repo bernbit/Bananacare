@@ -126,6 +126,7 @@ function DesktopNav() {
       ) : (
         <Link
           href="/login"
+          prefetch={true}
           className="bg-primary text-light rounded-md px-8 py-1 hover:cursor-pointer hover:opacity-70"
         >
           Login

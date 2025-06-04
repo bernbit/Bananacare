@@ -93,6 +93,8 @@ model ScanResult {
   age         Int
   phoneNumber String
   result      String
+  resultArr   Json
+  percentage  Float
   imgUrl      String
   createdAt   DateTime @default(now())
 }

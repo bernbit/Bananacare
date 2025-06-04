@@ -7,131 +7,39 @@ import Admin_StackBarChart from "@/components/admin/Admin_StackBarChart";
 import Image from "next/image";
 import { columns } from "@/components/admin/Admin_DataTable/columns";
 import { DataTable } from "@/components/admin/Admin_DataTable/data-table";
-import prisma from "@/lib/prisma";
-
-// Helper functions
-async function getStackedChartData() {
-  const grouped = await prisma.scanResult.groupBy({
-    by: ["address", "result"],
-    _count: {
-      result: true,
-    },
-  });
-
-  // Construct a map of barangays
-  const barangayMap: Record<string, any> = {};
-
-  grouped.forEach(({ address, result, _count }) => {
-    if (!barangayMap[address]) {
-      barangayMap[address] = {
-        key: address,
-        "black-sigatoka": 0,
-        cordana: 0,
-        "bract-mosaic-virus": 0,
-        moko: 0,
-        panama: 0,
-        weevil: 0,
-        healthy: 0,
-      };
-    }
-
-    // Handle result mapping (e.g., if DB has 'bmv' instead of full label)
-    const resultKey = result === "bmv" ? "bract-mosaic-virus" : result;
-
-    barangayMap[address][resultKey] = _count.result;
-  });
-
-  return Object.values(barangayMap);
-}
-
-async function getResultPercentage(resultType: string): Promise<string> {
-  const total = await prisma.scanResult.count();
-  if (total === 0) return "0.00%";
-  const count = await prisma.scanResult.count({
-    where: { result: resultType },
-  });
-  const percentage = (count / total) * 100;
-  return `${percentage.toFixed(2)}%`;
-}
-
-async function getDiseaseCount(diseaseKey: string): Promise<number> {
-  return prisma.scanResult.count({ where: { result: diseaseKey } });
-}
+import { fetchDashboardData } from "@/lib/data";
 
 async function AdminHome() {
-  // Fetch all needed data in parallel
-  const [
-    totalScanCount,
-    blackSigatokaCount,
-    cordanaCount,
-    bmvCount,
-    mokoCount,
-    panamaCount,
-    weevilCount,
-    healthyCount,
-    blackSigatokaPercent,
-    cordanaPercent,
-    bmvPercent,
-    mokoPercent,
-    panamaPercent,
-    weevilPercent,
-    healthyPercent,
-  ] = await Promise.all([
-    prisma.scanResult.count(),
-    getDiseaseCount("black-sigatoka"),
-    getDiseaseCount("cordana"),
-    getDiseaseCount("bmv"),
-    getDiseaseCount("moko"),
-    getDiseaseCount("panama"),
-    getDiseaseCount("weevil"),
-    getDiseaseCount("healthy"),
-    getResultPercentage("black-sigatoka"),
-    getResultPercentage("cordana"),
-    getResultPercentage("bmv"),
-    getResultPercentage("moko"),
-    getResultPercentage("panama"),
-    getResultPercentage("weevil"),
-    getResultPercentage("healthy"),
-  ]);
+  const { scanResults, stackedChartData, totalScanCount, diseaseStats } =
+    await fetchDashboardData();
 
-  const stackedChartData = await getStackedChartData();
+  const chartData = diseaseStats.map(({ key, count }) => ({
+    key: key === "bmv" ? "bract-mosaic-virus" : key,
+    value: count,
+    fill: `var(--color-${key})`,
+  }));
 
-  const chartData = [
+  const cardData = [
     {
-      key: "black-sigatoka",
-      value: blackSigatokaCount,
-      fill: "var(--color-black-sigatoka)",
+      icon: <LuScanLine className="text-primary size-5" />,
+      label: "Total Disease Reports",
+      data: totalScanCount,
     },
-    {
-      key: "cordana",
-      value: cordanaCount,
-      fill: "var(--color-cordana)",
-    },
-    {
-      key: "bract-mosaic-virus",
-      value: bmvCount,
-      fill: "var(--color-bmv)",
-    },
-    {
-      key: "moko",
-      value: mokoCount,
-      fill: "var(--color-moko)",
-    },
-    {
-      key: "panama",
-      value: panamaCount,
-      fill: "var(--color-panama)",
-    },
-    {
-      key: "weevil",
-      value: weevilCount,
-      fill: "var(--color-weevil)",
-    },
-    {
-      key: "healthy",
-      value: healthyCount,
-      fill: "var(--color-primary)",
-    },
+    ...diseaseStats.map(({ key, percent }) => ({
+      icon: (
+        <Image
+          src={`/img/${key.replace(/-/g, "_")}_Icon.png`}
+          width={30}
+          height={30}
+          alt={key}
+        />
+      ),
+      label:
+        key === "bmv"
+          ? "Bract Mosaic Virus"
+          : key.charAt(0).toUpperCase() + key.slice(1).replace(/-/g, " "),
+      data: percent,
+    })),
   ];
 
   const chartConfig = {
@@ -144,90 +52,6 @@ async function AdminHome() {
     weevil: { label: "Weevil" },
     healthy: { label: "Healthy" },
   };
-
-  // Example: fetch all scan results for the table (customize as needed)
-  const scanResults = await prisma.scanResult.findMany({
-    select: {
-      name: true,
-      email: true,
-      address: true,
-      age: true,
-      phoneNumber: true,
-      result: true,
-      imgUrl: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
-
-  const cardData = [
-    {
-      icon: <LuScanLine className="text-primary size-5" />,
-      label: "Total Disease Reports",
-      data: totalScanCount,
-    },
-    {
-      icon: (
-        <Image
-          src="/img/BlackSigatoka_Icon.png"
-          width={30}
-          height={30}
-          alt="Black Sigatoka"
-        />
-      ),
-      label: "Black Sigatoka",
-      data: blackSigatokaPercent,
-    },
-    {
-      icon: (
-        <Image
-          src="/img/Cordana_Icon.png"
-          width={30}
-          height={30}
-          alt="Cordana"
-        />
-      ),
-      label: "Cordana",
-      data: cordanaPercent,
-    },
-    {
-      icon: (
-        <Image
-          src="/img/BMV_Icon.png"
-          width={30}
-          height={30}
-          alt="Bract Mosaic Virus"
-        />
-      ),
-      label: "Bract Mosaic Virus",
-      data: bmvPercent,
-    },
-    {
-      icon: (
-        <Image src="/img/Moko_Icon.png" width={30} height={30} alt="Moko" />
-      ),
-      label: "Moko",
-      data: mokoPercent,
-    },
-    {
-      icon: (
-        <Image src="/img/Panama_Icon.png" width={30} height={30} alt="Panama" />
-      ),
-      label: "Panama",
-      data: panamaPercent,
-    },
-    {
-      icon: (
-        <Image src="/img/Weevil_Icon.png" width={30} height={30} alt="Weevil" />
-      ),
-      label: "Weevil",
-      data: weevilPercent,
-    },
-    {
-      icon: <LuTrendingUp className="text-primary size-5" />,
-      label: "Healthy",
-      data: healthyPercent, // Replace with actual calculation if needed
-    },
-  ];
 
   return (
     <div>

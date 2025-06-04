@@ -15,12 +15,12 @@ async function page() {
     orderBy: { createdAt: "desc" },
   });
   return (
-    <>
+    <div>
       <Admin_Header title="Users" />
       <div className="bg-primary/10 h-full flex-1 rounded-2xl p-4">
         <DataTable columns={columns} data={userResults} />
       </div>
-    </>
+    </div>
   );
 }
 

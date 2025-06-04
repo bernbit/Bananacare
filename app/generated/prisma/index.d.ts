@@ -6905,10 +6905,12 @@ export namespace Prisma {
 
   export type ScanResultAvgAggregateOutputType = {
     age: number | null
+    percentage: number | null
   }
 
   export type ScanResultSumAggregateOutputType = {
     age: number | null
+    percentage: number | null
   }
 
   export type ScanResultMinAggregateOutputType = {
@@ -6919,6 +6921,7 @@ export namespace Prisma {
     age: number | null
     phoneNumber: string | null
     result: string | null
+    percentage: number | null
     imgUrl: string | null
     createdAt: Date | null
   }
@@ -6931,6 +6934,7 @@ export namespace Prisma {
     age: number | null
     phoneNumber: string | null
     result: string | null
+    percentage: number | null
     imgUrl: string | null
     createdAt: Date | null
   }
@@ -6943,6 +6947,8 @@ export namespace Prisma {
     age: number
     phoneNumber: number
     result: number
+    resultArr: number
+    percentage: number
     imgUrl: number
     createdAt: number
     _all: number
@@ -6951,10 +6957,12 @@ export namespace Prisma {
 
   export type ScanResultAvgAggregateInputType = {
     age?: true
+    percentage?: true
   }
 
   export type ScanResultSumAggregateInputType = {
     age?: true
+    percentage?: true
   }
 
   export type ScanResultMinAggregateInputType = {
@@ -6965,6 +6973,7 @@ export namespace Prisma {
     age?: true
     phoneNumber?: true
     result?: true
+    percentage?: true
     imgUrl?: true
     createdAt?: true
   }
@@ -6977,6 +6986,7 @@ export namespace Prisma {
     age?: true
     phoneNumber?: true
     result?: true
+    percentage?: true
     imgUrl?: true
     createdAt?: true
   }
@@ -6989,6 +6999,8 @@ export namespace Prisma {
     age?: true
     phoneNumber?: true
     result?: true
+    resultArr?: true
+    percentage?: true
     imgUrl?: true
     createdAt?: true
     _all?: true
@@ -7088,6 +7100,8 @@ export namespace Prisma {
     age: number
     phoneNumber: string
     result: string
+    resultArr: JsonValue
+    percentage: number
     imgUrl: string
     createdAt: Date
     _count: ScanResultCountAggregateOutputType | null
@@ -7119,6 +7133,8 @@ export namespace Prisma {
     age?: boolean
     phoneNumber?: boolean
     result?: boolean
+    resultArr?: boolean
+    percentage?: boolean
     imgUrl?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["scanResult"]>
@@ -7131,6 +7147,8 @@ export namespace Prisma {
     age?: boolean
     phoneNumber?: boolean
     result?: boolean
+    resultArr?: boolean
+    percentage?: boolean
     imgUrl?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["scanResult"]>
@@ -7143,6 +7161,8 @@ export namespace Prisma {
     age?: boolean
     phoneNumber?: boolean
     result?: boolean
+    resultArr?: boolean
+    percentage?: boolean
     imgUrl?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["scanResult"]>
@@ -7155,11 +7175,13 @@ export namespace Prisma {
     age?: boolean
     phoneNumber?: boolean
     result?: boolean
+    resultArr?: boolean
+    percentage?: boolean
     imgUrl?: boolean
     createdAt?: boolean
   }
 
-  export type ScanResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "address" | "age" | "phoneNumber" | "result" | "imgUrl" | "createdAt", ExtArgs["result"]["scanResult"]>
+  export type ScanResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "address" | "age" | "phoneNumber" | "result" | "resultArr" | "percentage" | "imgUrl" | "createdAt", ExtArgs["result"]["scanResult"]>
 
   export type $ScanResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScanResult"
@@ -7172,6 +7194,8 @@ export namespace Prisma {
       age: number
       phoneNumber: string
       result: string
+      resultArr: Prisma.JsonValue
+      percentage: number
       imgUrl: string
       createdAt: Date
     }, ExtArgs["result"]["scanResult"]>
@@ -7604,6 +7628,8 @@ export namespace Prisma {
     readonly age: FieldRef<"ScanResult", 'Int'>
     readonly phoneNumber: FieldRef<"ScanResult", 'String'>
     readonly result: FieldRef<"ScanResult", 'String'>
+    readonly resultArr: FieldRef<"ScanResult", 'Json'>
+    readonly percentage: FieldRef<"ScanResult", 'Float'>
     readonly imgUrl: FieldRef<"ScanResult", 'String'>
     readonly createdAt: FieldRef<"ScanResult", 'DateTime'>
   }
@@ -8061,6 +8087,8 @@ export namespace Prisma {
     age: 'age',
     phoneNumber: 'phoneNumber',
     result: 'result',
+    resultArr: 'resultArr',
+    percentage: 'percentage',
     imgUrl: 'imgUrl',
     createdAt: 'createdAt'
   };
@@ -8074,6 +8102,13 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -8090,6 +8125,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -8143,6 +8187,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -8519,6 +8577,8 @@ export namespace Prisma {
     age?: IntFilter<"ScanResult"> | number
     phoneNumber?: StringFilter<"ScanResult"> | string
     result?: StringFilter<"ScanResult"> | string
+    resultArr?: JsonFilter<"ScanResult">
+    percentage?: FloatFilter<"ScanResult"> | number
     imgUrl?: StringFilter<"ScanResult"> | string
     createdAt?: DateTimeFilter<"ScanResult"> | Date | string
   }
@@ -8531,6 +8591,8 @@ export namespace Prisma {
     age?: SortOrder
     phoneNumber?: SortOrder
     result?: SortOrder
+    resultArr?: SortOrder
+    percentage?: SortOrder
     imgUrl?: SortOrder
     createdAt?: SortOrder
   }
@@ -8546,6 +8608,8 @@ export namespace Prisma {
     age?: IntFilter<"ScanResult"> | number
     phoneNumber?: StringFilter<"ScanResult"> | string
     result?: StringFilter<"ScanResult"> | string
+    resultArr?: JsonFilter<"ScanResult">
+    percentage?: FloatFilter<"ScanResult"> | number
     imgUrl?: StringFilter<"ScanResult"> | string
     createdAt?: DateTimeFilter<"ScanResult"> | Date | string
   }, "id">
@@ -8558,6 +8622,8 @@ export namespace Prisma {
     age?: SortOrder
     phoneNumber?: SortOrder
     result?: SortOrder
+    resultArr?: SortOrder
+    percentage?: SortOrder
     imgUrl?: SortOrder
     createdAt?: SortOrder
     _count?: ScanResultCountOrderByAggregateInput
@@ -8578,6 +8644,8 @@ export namespace Prisma {
     age?: IntWithAggregatesFilter<"ScanResult"> | number
     phoneNumber?: StringWithAggregatesFilter<"ScanResult"> | string
     result?: StringWithAggregatesFilter<"ScanResult"> | string
+    resultArr?: JsonWithAggregatesFilter<"ScanResult">
+    percentage?: FloatWithAggregatesFilter<"ScanResult"> | number
     imgUrl?: StringWithAggregatesFilter<"ScanResult"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ScanResult"> | Date | string
   }
@@ -8963,6 +9031,8 @@ export namespace Prisma {
     age: number
     phoneNumber: string
     result: string
+    resultArr: JsonNullValueInput | InputJsonValue
+    percentage: number
     imgUrl: string
     createdAt?: Date | string
   }
@@ -8975,6 +9045,8 @@ export namespace Prisma {
     age: number
     phoneNumber: string
     result: string
+    resultArr: JsonNullValueInput | InputJsonValue
+    percentage: number
     imgUrl: string
     createdAt?: Date | string
   }
@@ -8987,6 +9059,8 @@ export namespace Prisma {
     age?: IntFieldUpdateOperationsInput | number
     phoneNumber?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    resultArr?: JsonNullValueInput | InputJsonValue
+    percentage?: FloatFieldUpdateOperationsInput | number
     imgUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8999,6 +9073,8 @@ export namespace Prisma {
     age?: IntFieldUpdateOperationsInput | number
     phoneNumber?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    resultArr?: JsonNullValueInput | InputJsonValue
+    percentage?: FloatFieldUpdateOperationsInput | number
     imgUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9011,6 +9087,8 @@ export namespace Prisma {
     age: number
     phoneNumber: string
     result: string
+    resultArr: JsonNullValueInput | InputJsonValue
+    percentage: number
     imgUrl: string
     createdAt?: Date | string
   }
@@ -9023,6 +9101,8 @@ export namespace Prisma {
     age?: IntFieldUpdateOperationsInput | number
     phoneNumber?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    resultArr?: JsonNullValueInput | InputJsonValue
+    percentage?: FloatFieldUpdateOperationsInput | number
     imgUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9035,6 +9115,8 @@ export namespace Prisma {
     age?: IntFieldUpdateOperationsInput | number
     phoneNumber?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    resultArr?: JsonNullValueInput | InputJsonValue
+    percentage?: FloatFieldUpdateOperationsInput | number
     imgUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9448,6 +9530,40 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
 
   export type ScanResultCountOrderByAggregateInput = {
     id?: SortOrder
@@ -9457,12 +9573,15 @@ export namespace Prisma {
     age?: SortOrder
     phoneNumber?: SortOrder
     result?: SortOrder
+    resultArr?: SortOrder
+    percentage?: SortOrder
     imgUrl?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ScanResultAvgOrderByAggregateInput = {
     age?: SortOrder
+    percentage?: SortOrder
   }
 
   export type ScanResultMaxOrderByAggregateInput = {
@@ -9473,6 +9592,7 @@ export namespace Prisma {
     age?: SortOrder
     phoneNumber?: SortOrder
     result?: SortOrder
+    percentage?: SortOrder
     imgUrl?: SortOrder
     createdAt?: SortOrder
   }
@@ -9485,12 +9605,56 @@ export namespace Prisma {
     age?: SortOrder
     phoneNumber?: SortOrder
     result?: SortOrder
+    percentage?: SortOrder
     imgUrl?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ScanResultSumOrderByAggregateInput = {
     age?: SortOrder
+    percentage?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -9697,6 +9861,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthenticatorInput, UserUpdateWithoutAuthenticatorInput>, UserUncheckedUpdateWithoutAuthenticatorInput>
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9896,6 +10068,45 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {

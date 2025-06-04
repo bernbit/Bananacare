@@ -110,6 +110,8 @@ export function ScanForm() {
     const tensor = await preprocessImage(bananaImage);
     const results = await makePrediction(model, tensor);
 
+    console.log(results);
+
     // Check if top result is 'not-banana'
     if (results.length > 0 && results[0].id === "not-banana") {
       setShowNotBanana(true);
@@ -139,6 +141,8 @@ export function ScanForm() {
       address: values.address,
       age: Number(values.age),
       phoneNumber: values.phoneNumber,
+      percentage: results[0].percentage,
+      resultArr: results,
       result: results[0].id,
       imgUrl,
     };

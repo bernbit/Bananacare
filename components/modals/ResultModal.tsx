@@ -13,7 +13,7 @@ interface ResultModalProps {
   open: boolean;
   onClose: () => void;
   rankedResults: BananaDiseaseType[];
-  resetForm: () => void;
+  resetForm?: () => void;
   previewImg: string | null;
 }
 

@@ -180,6 +180,8 @@ exports.Prisma.ScanResultScalarFieldEnum = {
   age: 'age',
   phoneNumber: 'phoneNumber',
   result: 'result',
+  resultArr: 'resultArr',
+  percentage: 'percentage',
   imgUrl: 'imgUrl',
   createdAt: 'createdAt'
 };
@@ -187,6 +189,10 @@ exports.Prisma.ScanResultScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -197,6 +203,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 

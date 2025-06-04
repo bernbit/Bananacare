@@ -36,12 +36,12 @@ const LoaderModal: React.FC<LoaderModalProps> = ({
           <div
             className={`bg-primary/20 border-primary flex w-full flex-1 flex-col items-center justify-center rounded-md px-4 py-4`}
           >
-            <div className="relative aspect-square max-h-[500px] w-full flex-1 overflow-hidden rounded-md">
+            <div className="bg-primary/20 relative flex aspect-square max-h-[400px] w-full flex-col overflow-hidden rounded-t-md px-4 py-4">
               {previewImg && (
                 <img
                   src={previewImg}
                   alt="Banana Image"
-                  className={`${augmentationSteps[currentStep]?.animation} animate-steps h-full object-center`}
+                  className="h-full object-center"
                 />
               )}
             </div>

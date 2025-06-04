@@ -33,8 +33,10 @@ export function Admin_BarChart({ chartData, chartConfig }: ChartPropsType) {
   return (
     <Card className="bg-light flex-1 rounded-md border-none">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle className="font-clash-grotesk text-lg font-medium">
+          Banana Disease Count
+        </CardTitle>
+        {/* <CardDescription>January - June 2024</CardDescription> */}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

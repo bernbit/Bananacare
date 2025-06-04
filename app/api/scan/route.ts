@@ -8,14 +8,26 @@ export async function POST(req: NextRequest) {
     console.log("Request", data);
 
     // Validate required fields
-    const { name, email, address, age, phoneNumber, result, imgUrl } = data;
+    const {
+      name,
+      email,
+      address,
+      age,
+      phoneNumber,
+      percentage,
+      result,
+      resultArr,
+      imgUrl,
+    } = data;
     if (
       !name ||
       !email ||
       !address ||
       !age ||
       !phoneNumber ||
+      !percentage ||
       !result ||
+      !resultArr ||
       !imgUrl
     ) {
       return NextResponse.json(
@@ -31,7 +43,9 @@ export async function POST(req: NextRequest) {
         address,
         age: Number(age),
         phoneNumber,
+        percentage,
         result,
+        resultArr,
         imgUrl,
       },
     });
